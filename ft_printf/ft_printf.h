@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 18:11:22 by hmeftah          ###   ########.fr       */
+/*   Created: 2022/10/13 17:25:59 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/11 17:05:48 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_malloc/ft_malloc.h"
-# include "../MLX42/MLX42.h"
-# include "parse.h"
+# include <stdarg.h>
+# include <limits.h>
+# include "./includes/libft.h"
 
-typedef struct s_map_info {
-	t_cnf	*data;
-}	t_map;
+int		ft_printf(int fd, const char *format, ...);
+int		ft_putbase_fd_lower(unsigned int n, int fd);
+int		ft_putnbr_fd_unsigned(unsigned int n, int fd);
+int		ft_putbase_fd(unsigned int n, int fd);
+int		ft_putadress(void *ptr, int fd);
 
 #endif

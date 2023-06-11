@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putbase_fdLower.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 18:11:22 by hmeftah          ###   ########.fr       */
+/*   Created: 2022/10/17 20:20:53 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/11 17:07:32 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "./includes/libft.h"
+#include "ft_printf.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_malloc/ft_malloc.h"
-# include "../MLX42/MLX42.h"
-# include "parse.h"
+int	ft_putbase_fd_lower(unsigned int n, int fd)
+{
+	int	counter;
 
-typedef struct s_map_info {
-	t_cnf	*data;
-}	t_map;
-
-#endif
+	counter = 0;
+	if (n < 16)
+	{
+		counter += ft_putchar_fd("0123456789abcdef"[n % 16], fd);
+	}
+	else if (n <= 9)
+		counter += ft_putbase_fd_lower(n, fd);
+	else
+	{
+		counter += ft_putbase_fd_lower(n / 16, fd);
+		counter += ft_putbase_fd_lower(n % 16, fd);
+	}
+	return (counter);
+}

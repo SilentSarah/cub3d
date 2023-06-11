@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 18:11:22 by hmeftah          ###   ########.fr       */
+/*   Created: 2022/10/11 19:43:01 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/11 17:08:47 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "./includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_malloc/ft_malloc.h"
-# include "../MLX42/MLX42.h"
-# include "parse.h"
+int	ft_putstr_fd(char *s, int fd)
+{
+	int	counter;
 
-typedef struct s_map_info {
-	t_cnf	*data;
-}	t_map;
-
-#endif
+	counter = 0;
+	if (s != NULL)
+	{
+		while (*s)
+		{
+			counter += ft_putchar_fd(*s, fd);
+			s++;
+		}
+	}
+	else
+		counter += ft_putstr_fd("(null)", fd);
+	return (counter);
+}

@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 18:11:22 by hmeftah          ###   ########.fr       */
+/*   Created: 2022/10/01 22:43:51 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/11 17:16:12 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef LIBFT_H
+# define LIBFT_H
 
-# include <unistd.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_malloc/ft_malloc.h"
-# include "../MLX42/MLX42.h"
-# include "parse.h"
+# include <unistd.h>
 
-typedef struct s_map_info {
-	t_cnf	*data;
-}	t_map;
+int		ft_putchar_fd(char c, int fd);
+int		ft_putstr_fd(char *s, int fd);
+int		ft_putnbr_fd(int n, int fd);
 
 #endif
