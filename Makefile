@@ -1,8 +1,8 @@
 # General Makefile Variables
 NAME = cub3d
 CC = cc
-FLAGS = -Wall -Werror -Wextra
-SOURCE = $(addprefix SOURCE/, main.c)
+FLAGS = -Wall -Werror -Wextra -fsanitize=address
+SOURCE = $(addprefix SOURCE/, main.c map_loader.c map_loader_support.c map_loader_extra.c string_manipulation.c)
 
 # Libraries
 MLX42 = libmlx42.a
@@ -17,8 +17,8 @@ PRINTF_SRC = $(addprefix ft_printf/, ft_printf.c ft_putadress.c ft_putbase_fd.c 
 MALLOC_SRC = $(addprefix ft_malloc/, ft_malloc.c misc_functions.c misc_functions2.c)
 
 # Misc but needed frameworks libraries and includes for MLX
-MLX_DEP = -framework Cocoa -framework OpenGL -framework IOKit -lglfw -L"/Users/hmeftah/goinfre/homebrew/Cellar/glfw/3.3.8/lib"
-INCLUDE = -I MLX42 -I INCLUDES -I libft
+MLX_DEP = -framework Cocoa -framework OpenGL -framework IOKit -L "./libglfw3.a"
+INCLUDE = -I MLX42 -I INCLUDES -I libft -I ft_malloc -I ft_printf
 
 .PHONY: re fclean clean all
 
@@ -31,7 +31,7 @@ norm:
 $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@make -C libft
 	@make -C ft_printf
-	@make -c ft_malloc
+	@make -C ft_malloc
 	@mv ./libft/libft.a ./
 	@mv ./ft_printf/libftprintf.a ./
 	@mv ./ft_malloc/ft_malloc.a ./
@@ -39,12 +39,12 @@ $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 $(NAME): $(SOURCE) $(SOURCE:.c=.o)
 	@tput el
 	@echo "Making executable: |$@|"
-	@$(CC) $(FLAGS) $(SOURCE:.c=.o) $(LIBFT) $(PRINTF) $(MLX42) $(MLX_DEP) -o $@
+	@$(CC) $(FLAGS) $(SOURCE:.c=.o) $(LIBFT) $(PRINTF) $(MALLOC) $(MLX42) $(MLX_DEP) -o $@
 
 ./SOURCE/%.o: ./SOURCE/%.c
 	@tput cuu1
 	@echo "Creating Object file: |$@|"
-	@$(CC) $(FLAGS) $(INCLUDE) $< -c -o $@
+	@$(CC) $(FLAGS) $< -c -o $@
 
 clean:
 	@rm -rf $(SOURCE:.c=.o)
@@ -53,7 +53,7 @@ clean:
 	@make clean -C ./ft_malloc
 
 fclean: clean
-	@rm -rf $(NAME) $(LIBFT) $(PRINTF)
+	@rm -rf $(NAME) $(LIBFT) $(PRINTF) $(MALLOC)
 	@make fclean -C ./libft
 	@make fclean -C ./ft_printf
 	@make fclean -C ./ft_malloc

@@ -1,30 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   map_loader_extra.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/12 18:46:54 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/06/12 11:33:51 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/12 11:34:13 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../INCLUDES/parse.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_malloc/ft_malloc.h"
-# include "../MLX42/MLX42.h"
-# include "parse.h"
-
-typedef struct s_map_info {
-	t_cnf	*data;
-}	t_map;
-
-#endif

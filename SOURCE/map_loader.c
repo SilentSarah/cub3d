@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:08:34 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 18:08:13 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/12 19:57:45 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,31 @@ int	open_map(char *map_dir)
 
 	if (!map_dir)
 		return (-1);
-	fd = open(map_dir, O_RDONLY, 0644);
+	fd = open(map_dir, O_RDONLY);
 	return (fd);
 }
 
 char	*read_map(int fd)
 {
+	int		rd;
 	char	buffer[2];
 	char	*raw_data;
 
+	raw_data = NULL;
 	if (fd < 0)
-		return (ft_printf(2, "%s", LOAD_ERR));
+	{
+		ft_printf(2, "%s", LOAD_ERR);
+		return (0);
+	}
 	while (1)
 	{
-		if (read(fd, buffer, 1) < 0)
-			return (ft_printf(2, "%s", READ_ERR));
-		if (read(fd, buffer, 1) == 0)
+		rd = read(fd, buffer, 1);
+		if (rd < 0)
+		{
+			ft_printf(2, "%s", READ_ERR);
+			return (0);
+		}
+		if (rd == 0)
 			break ;
 		buffer[1] = '\0';
 		raw_data = concatinate(raw_data, buffer);
@@ -51,15 +60,18 @@ char	*read_map(int fd)
 	return (raw_data);
 }
 
-int	check_arrangement(char	*raw_map)
+int	load_map(char *file_name)
 {
-	
-}
+	int		fd;
+	char	*raw_map;
 
-char	**split_cnf_data(char *raw_map)
-{
-	char	*s_point;
-	char	*split[2];
-
-	
+	if (check_extension(file_name))
+		return (ft_printf(1, "%s", EXT_ERROR));
+	fd = open_map(file_name);
+	raw_map = read_map(fd);
+	if (!raw_map)
+		return (1);
+	if (compare_cnf_map(raw_map))
+		return (ft_printf(1, "%s", INV_ERR));
+	return (0);
 }
