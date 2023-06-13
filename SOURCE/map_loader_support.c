@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:10:04 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/12 20:14:15 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/13 20:20:36 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,62 @@ char	*ft_strchr_set(char *string, char *set)
 	return (NULL);
 }
 
-int compare_cnf_map(char *raw_data)
+char	*ft_strnstr_cnf(char *raw_data)
 {
-    int         i;
-    static char *cnfs[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
-    char        *cnf;
-    char        *map;
-    
-    i = -1;
-    while (cnfs[++i])
-    {
-        cnf = ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data));
-        map = ft_strchr_set(raw_data, "01");
-        if (cnf && map)
+	int			i;
+	static char	*cnfs[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
+
+	i = -1;
+	while (cnfs[++i])
+		if (ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data)))
+			return (ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data)));
+	return (NULL);
+}
+
+char	*find_start_of_map(char *raw_data)
+{
+	int		i;
+	char	*r_data;
+
+	r_data = raw_data;
+	while (*r_data)
+	{
+		i = 0;
+		if (*r_data == '\n')
 		{
-			ft_printf(1, "Found cnf %p\nFound Map %p\n", cnf, map);
-            break ;
+			r_data++;
+			while (ft_strchr("\t 10", *(r_data + i)))
+				i++;
+			if (i > 0)
+				return (r_data);
 		}
-    }
-    if (!cnf || !map)
-        return (1);
-    if (map < cnf)
-        return (1);
-    return (0);
+		r_data++;
+	}
+	return (NULL);
+}
+
+int	compare_cnf_map(char *raw_data)
+{
+	int			i;
+	static char	*cnfs[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
+	char		*cnf;
+	char		*map;
+
+	i = -1;
+	while (cnfs[++i])
+	{
+		cnf = ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data));
+		map = find_start_of_map(raw_data);
+		if (map)
+			if (ft_strnstr_cnf(map))
+				return (1);
+	}
+	if (!cnf || !map)
+		return (1);
+	if (map < cnf)
+		return (1);
+	ft_printf(1, "CNF FOUND: \n%s\n", cnf);
+	ft_printf(1, "----------------------------------\n");
+	ft_printf(1, "MAP FOUND: \n%s\n", map);
+	return (0);
 }
