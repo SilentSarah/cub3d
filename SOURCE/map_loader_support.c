@@ -28,10 +28,13 @@ char	*ft_strnstr_cnf(char *raw_data)
 	int			i;
 	static char	*cnfs[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
 
-	i = -1;
-	while (cnfs[++i])
+	i = 0;
+	while (cnfs[i])
+	{
 		if (ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data)))
 			return (ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data)));
+		i++;
+	}
 	return (NULL);
 }
 
@@ -46,7 +49,8 @@ char	*find_start_of_map(char *raw_data)
 		i = 0;
 		if (*r_data == '\n')
 		{
-			r_data++;
+			while (*r_data == '\n')
+				r_data++;
 			while (ft_strchr("\t 10", *(r_data + i)))
 				i++;
 			if (i > 0)
@@ -59,20 +63,14 @@ char	*find_start_of_map(char *raw_data)
 
 int	compare_cnf_map(char *raw_data)
 {
-	int			i;
-	static char	*cnfs[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
 	char		*cnf;
 	char		*map;
 
-	i = -1;
-	while (cnfs[++i])
-	{
-		cnf = ft_strnstr(raw_data, cnfs[i], ft_strlen(raw_data));
-		map = find_start_of_map(raw_data);
-		if (map)
-			if (ft_strnstr_cnf(map))
-				return (1);
-	}
+	cnf = ft_strnstr_cnf(raw_data);
+	map = find_start_of_map(raw_data);
+	if (map)
+		if (ft_strnstr_cnf(map))
+			return (1);
 	if (!cnf || !map)
 		return (1);
 	if (map < cnf)
