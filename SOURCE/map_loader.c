@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:08:34 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/14 16:11:54 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 16:31:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	load_map(char *file_name, t_cnf *data)
 	raw_map = read_map(fd);
 	if (!raw_map)
 		return (1);
-	if (compare_cnf_map(raw_map))
+	if (compare_cnf_map(raw_map, data))
 		return (ft_printf(1, "%s", INV_ERR));
 	return (0);
 }

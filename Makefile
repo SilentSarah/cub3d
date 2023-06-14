@@ -2,7 +2,7 @@
 NAME = cub3d
 CC = cc
 FLAGS = -Wall -Werror -Wextra -fsanitize=address
-SOURCE = $(addprefix SOURCE/, main.c map_loader.c map_loader_support.c map_loader_extra.c string_manipulation.c)
+SOURCE = $(addprefix SOURCE/, assist_funcs.c main.c map_data_parser.c map_loader.c map_loader_extra.c map_loader_support.c string_manipulation.c)
 
 # Libraries
 MLX42 = libmlx42.a

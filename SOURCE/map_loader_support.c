@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:10:04 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/14 15:39:52 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 20:04:54 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*find_start_of_map(char *raw_data)
 		{
 			while (*r_data == '\n')
 				r_data++;
+			if (!*r_data)
+				return (NULL);
 			while (ft_strchr("\t 10", *(r_data + i)))
 				i++;
 			if (i > 0)
@@ -61,20 +63,20 @@ char	*find_start_of_map(char *raw_data)
 	return (NULL);
 }
 
-int	compare_cnf_map(char *raw_data)
+int	compare_cnf_map(char *raw_data, t_cnf *data)
 {
-	char		*cnf;
-	char		*map;
-
-	map = ft_strchr_set(raw_data, "10");
-	cnf = ft_strnstr_cnf(raw_data);
-	if (map < cnf)
+	data->map_start = ft_strchr_set(raw_data, "10");
+	data->cnf_start = ft_strnstr_cnf(raw_data);
+	if (data->map_start < data->cnf_start)
 		return (1);
-	map = find_start_of_map(raw_data);
-	if (map)
-		if (ft_strnstr_cnf(map))
+	if (find_start_of_map(raw_data))
+		data->map_start = find_start_of_map(raw_data) - 1;
+	else
+		data->map_start = NULL;
+	if (data->map_start)
+		if (ft_strnstr_cnf(data->map_start))
 			return (1);
-	if (!cnf || !map)
+	if (!data->cnf_start || !data->map_start)
 		return (1);
 	return (0);
 }

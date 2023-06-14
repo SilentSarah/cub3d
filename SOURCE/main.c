@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:43:53 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/14 16:21:03 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 18:57:27 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	initialize_mlx(t_map **mlx)
 		ft_malloc(-1);
 		exit (1);
 	}
+	(*mlx)->data->cnf = NULL;
+	(*mlx)->data->map = NULL;
 	(*mlx)->mlx = mlx_init(640, 480, "CUB3D", true);
 	if (!(*mlx)->mlx)
 	{
@@ -38,7 +40,19 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		initialize_mlx(&mlx);
-		load_map(av[1], mlx->data);
+		if (load_map(av[1], mlx->data))
+		{
+			ft_malloc(-1);
+			exit (1);
+		}
+		if (extract_map_data(mlx->data))
+		{
+			ft_printf(2, "%s", INV_ERR);
+			free_2d_array(mlx->data->cnf);
+			free_2d_array(mlx->data->map);
+			ft_malloc(-1);
+			exit (1);
+		}
 		mlx_loop(mlx->mlx);
 	}
 	return (0);
