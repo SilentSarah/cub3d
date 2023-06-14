@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:10:04 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/13 20:20:36 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:39:52 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,15 @@ int	compare_cnf_map(char *raw_data)
 	char		*cnf;
 	char		*map;
 
+	map = ft_strchr_set(raw_data, "10");
 	cnf = ft_strnstr_cnf(raw_data);
+	if (map < cnf)
+		return (1);
 	map = find_start_of_map(raw_data);
 	if (map)
 		if (ft_strnstr_cnf(map))
 			return (1);
 	if (!cnf || !map)
 		return (1);
-	if (map < cnf)
-		return (1);
-	ft_printf(1, "CNF FOUND: \n%s\n", cnf);
-	ft_printf(1, "----------------------------------\n");
-	ft_printf(1, "MAP FOUND: \n%s\n", map);
 	return (0);
 }

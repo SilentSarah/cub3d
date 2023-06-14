@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/12 18:46:54 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:52:26 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 typedef struct s_map_info {
 	t_cnf	*data;
+	void	*mlx;
+	void	*win;
 }	t_map;
 
 #endif

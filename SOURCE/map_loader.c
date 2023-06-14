@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:08:34 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/12 19:57:45 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 16:11:54 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ char	*read_map(int fd)
 	return (raw_data);
 }
 
-int	load_map(char *file_name)
+int	load_map(char *file_name, t_cnf *data)
 {
 	int		fd;
 	char	*raw_map;
 
+	(void)data;
 	if (check_extension(file_name))
 		return (ft_printf(1, "%s", EXT_ERROR));
 	fd = open_map(file_name);

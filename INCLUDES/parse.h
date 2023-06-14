@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:23:49 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/12 19:56:57 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:43:11 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ struct s_cnf_data {
 	char	*textures[4];
 	int		f_value[3];
 	int		c_value[3];
+	char	*cnf_start;
+	char	*map_start;
 };
 typedef struct s_cnf_data	t_cnf;
 
@@ -51,5 +53,5 @@ char	*substring(char *str, unsigned int s, unsigned int size);
 int		calculate_char(char *string, char c);
 int		compare_cnf_map(char *raw_map);
 char	**split_cnf_data(char *raw_data);
-int		load_map(char *file_name);
+int		load_map(char *file_name, t_cnf *data);
 #endif
