@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:23:49 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/14 19:30:17 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/15 18:20:49 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_cnf_data {
 	char	*map_start;
 	char	**map;
 	char	**cnf;
+	bool	outside;
 };
 typedef struct s_cnf_data	t_cnf;
 
@@ -65,5 +66,8 @@ char	*copy_txt_data(char *origin, char *txt);
 bool	set_cnf_data(char **txt, int *floor, int *ceiling, char **cnf);
 bool	set_rgb_values(int *choice, char **cnf, char type);
 bool	calculate_cnfs(char **cnf);
-
+void	print_map_cnf(t_cnf *data);
+bool	test_map_walls(t_cnf *data);
+bool	parse_map(t_cnf *data, char **map);
+bool	find_double_newlines(char *start_map);
 #endif

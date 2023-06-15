@@ -1,8 +1,14 @@
 # General Makefile Variables
 NAME = cub3d
 CC = cc
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
-SOURCE = $(addprefix SOURCE/, assist_funcs.c main.c map_data_parser.c map_loader.c map_loader_extra.c map_loader_support.c string_manipulation.c)
+FLAGS = -Wall -Werror -Wextra #-fsanitize=address
+
+#Source files
+SOURCE_PARSE = $(addprefix SOURCE/MAP_PARSE/, assist_funcs.c map_parser.c map_walls_check.c map_data_parser.c map_loader.c map_loader_extra.c map_loader_support.c)
+SOURCE_ASSIST = $(addprefix SOURCE/, main.c string_manipulation.c)
+
+#Object Holder
+OBJ_HOLD = $(addprefix OBJ/, assist_funcs.o map_parser.o map_walls_check.o map_data_parser.o map_loader.o map_loader_extra.o map_loader_support.o main.o string_manipulation.o)
 
 # Libraries
 MLX42 = libmlx42.a
@@ -23,11 +29,11 @@ INCLUDE = -I MLX42 -I INCLUDES -I libft -I ft_malloc -I ft_printf
 
 .PHONY: re fclean clean all
 
-all: $(LIBFT) $(PRINTF) $(NAME) 
+all: $(LIBFT) $(MALLOC) $(PRINTF) $(NAME)
 
 # Norminette
 norm:
-	norminette SOURCE/ INCLUDES/
+	norminette ft_malloc libft ft_printf SOURCE/ INCLUDES/parse.h INCLUDES/cub3d.h
 
 $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@make -C libft
@@ -37,18 +43,27 @@ $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@mv ./ft_printf/libftprintf.a ./
 	@mv ./ft_malloc/ft_malloc.a ./
 
-$(NAME): $(SOURCE) $(SOURCE:.c=.o)
+
+$(NAME): $(OBJ_HOLD) $(SOURCE_PARSE) $(SOURCE_ASSIST) 
 	@tput el
 	@echo "Making executable: |$@|"
-	@$(CC) $(FLAGS) $(SOURCE:.c=.o) $(LIBFT) $(PRINTF) $(MALLOC) $(MLX42) $(GLFW) $(MLX_DEP) -o $@
+	@$(CC) $(FLAGS) $(OBJ_HOLD) $(LIBFT) $(PRINTF) $(MALLOC) $(MLX42) $(GLFW) $(MLX_DEP) -o $@
 
-./SOURCE/%.o: ./SOURCE/%.c
+
+./OBJ/%.o: SOURCE/%.c
 	@tput cuu1
 	@echo "Creating Object file: |$@|"
 	@$(CC) $(FLAGS) $< -c -o $@
 
+
+./OBJ/%.o: SOURCE/MAP_PARSE/%.c
+	@tput cuu1
+	@echo "Creating Object file: |$@|"
+	@$(CC) $(FLAGS) $< -c -o $@
+
+
 clean:
-	@rm -rf $(SOURCE:.c=.o)
+	@rm -rf $(OBJ_HOLD)
 	@make clean -C ./libft
 	@make clean -C ./ft_printf
 	@make clean -C ./ft_malloc

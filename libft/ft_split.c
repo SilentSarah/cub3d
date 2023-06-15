@@ -6,12 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 00:28:48 by hmeftah           #+#    #+#             */
-/*   Updated: 2022/10/14 18:15:13 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/15 13:06:10 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 // Used to count how many delimiters by checking if the character
 // In front of it is != delimiter
