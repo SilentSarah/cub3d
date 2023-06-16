@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:23:49 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/15 18:20:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 13:51:17 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ struct s_cnf_data {
 	char	*textures[5];
 	int		f_value[3];
 	int		c_value[3];
+	float	*pos;
+	float	x;
+	float	y;
 	char	*cnf_start;
 	char	*map_start;
 	char	**map;
@@ -70,4 +73,5 @@ void	print_map_cnf(t_cnf *data);
 bool	test_map_walls(t_cnf *data);
 bool	parse_map(t_cnf *data, char **map);
 bool	find_double_newlines(char *start_map);
+float	*convert_arr(int *pos);
 #endif

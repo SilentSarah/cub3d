@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:33:51 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/15 16:45:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 15:06:24 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	**datasplit_cnf(char *start, char *end)
 {
+	if (!end || !start)
+		return (NULL);
 	end[0] = '\0';
 	return (ft_split(start, '\n'));
 }

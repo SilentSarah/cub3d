@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mlx_key_hook.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 11:43:53 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 15:09:03 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/06/16 12:33:17 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/06/16 15:02:40 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCLUDES/cub3d.h"
 #include "../INCLUDES/raycast.h"
 
-int	main(int ac, char **av)
+float	*convert_arr(int *pos)
+{
+	int		i;
+	float	*lpos;
+
+	if (!pos)
+		return (NULL);
+	lpos = ft_malloc(2 * sizeof(float));
+	if (!lpos)
+		return (NULL);
+	i = -1;
+	while (++i < 2)
+		lpos[i] = pos[i];
+	return (lpos);
+}
+
+void	key_handler(void *arg)
 {
 	t_map	*mlx;
 
-	if (ac == 2)
+	mlx = arg;
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_W))
 	{
-		initialize_mlx(&mlx);
-		if (load_map(av[1], mlx->data))
-		{
-			ft_malloc(-1);
-			exit (1);
-		}
-		if (extract_map_data(mlx->data) || draw_2d_map(mlx))
-		{
-			ft_printf(2, "%s", INV_ERR);
-			free_2d_array(mlx->data->cnf);
-			free_2d_array(mlx->data->map);
-			ft_malloc(-1);
-			exit (1);
-		}
-		ft_printf(1, "TEST\n");
-		hook_functions(mlx);
+		// mlx->data->pos[0] -= 0.1;
 	}
-	return (0);
 }

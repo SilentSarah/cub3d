@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/14 15:52:26 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 13:20:54 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,18 @@
 # include "../MLX42/MLX42.h"
 # include "parse.h"
 
+
 typedef struct s_map_info {
-	t_cnf	*data;
-	void	*mlx;
-	void	*win;
+	t_cnf		*data;
+	void		*mlx;
+	void		*win;
+	float		*lpos;
+	mlx_image_t	*image;
 }	t_map;
+
+void	initialize_mlx(t_map **mlx);
+void	hook_functions(t_map *mlx);
+void	key_handler(void *arg);
+float	*convert_arr(int *pos);
 
 #endif
