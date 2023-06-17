@@ -6,10 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:05:31 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 13:34:48 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 16:25:23 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../INCLUDES/cub3d.h"
 #include "../../INCLUDES/parse.h"
 
 bool	check_inv_elements(char **map)
@@ -46,9 +47,9 @@ bool	find_double_newlines(char *start_map)
 	return (0);
 }
 
-bool	parse_map(t_cnf *data, char **map)
+bool	parse_map(t_map *mlx, char **map)
 {
-	if (check_inv_elements(map) || test_map_walls(data))
+	if (check_inv_elements(map) || test_map_walls(mlx->data, mlx->pinfo))
 		return (1);
 	return (0);
 }

@@ -6,10 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:33:51 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 15:06:24 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 18:51:18 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../INCLUDES/cub3d.h"
 #include "../../INCLUDES/parse.h"
 
 char	**datasplit_cnf(char *start, char *end)
@@ -63,7 +64,7 @@ bool	extract_values(char *string, int *choice)
 	return (0);
 }
 
-bool	extract_map_data(t_cnf *data)
+bool	extract_map_data(t_map *mlx, t_cnf *data)
 {
 	data->cnf = datasplit_cnf(data->cnf_start, data->map_start);
 	if (!data->cnf)
@@ -73,7 +74,7 @@ bool	extract_map_data(t_cnf *data)
 	data->map = ft_split(data->map_start + 1, '\n');
 	if (!data->map)
 		return (1);
-	if (parse_map(data, data->map))
+	if (parse_map(mlx, data->map))
 		return (1);
 	return (false);
 }

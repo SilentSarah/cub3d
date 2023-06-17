@@ -6,27 +6,50 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:33:17 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 15:02:40 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/17 19:58:57 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCLUDES/cub3d.h"
 #include "../INCLUDES/raycast.h"
+#include <stdio.h>
 
-float	*convert_arr(int *pos)
+void	move_player(int	direction, t_pinfo *pinfo)
 {
-	int		i;
-	float	*lpos;
+	float	pos_x;
+	float	pos_y;
 
-	if (!pos)
-		return (NULL);
-	lpos = ft_malloc(2 * sizeof(float));
-	if (!lpos)
-		return (NULL);
-	i = -1;
-	while (++i < 2)
-		lpos[i] = pos[i];
-	return (lpos);
+	
+	if (direction == FORWARD)
+	{
+		pos_x = pinfo->pos_x - SPEED * sin(convert_to_degree(pinfo->angle));
+		pos_y = pinfo->pos_y - SPEED * cos(convert_to_degree(pinfo->angle));
+		pinfo->pos_y = pos_y;
+		pinfo->pos_x = pos_x;
+	}
+	else if (direction == BACKWARD)
+	{
+		pos_x = pinfo->pos_x + SPEED * sin(convert_to_degree(pinfo->angle));
+		pos_y = pinfo->pos_y + SPEED * cos(convert_to_degree(pinfo->angle));
+		pinfo->pos_y = pos_y;
+		pinfo->pos_x = pos_x;
+	}
+}
+
+void	rotate_player(int strafe, t_pinfo *pinfo)
+{
+	if (strafe == LEFT)
+	{
+		pinfo->angle += ROT_SPEED;
+		if (pinfo->angle > 360)
+			pinfo->angle = 0;
+	}
+	else if (strafe == RIGHT)
+	{
+		pinfo->angle -= ROT_SPEED;
+		if (pinfo->angle < 0)
+			pinfo->angle = 360;
+	}
 }
 
 void	key_handler(void *arg)
@@ -35,7 +58,13 @@ void	key_handler(void *arg)
 
 	mlx = arg;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_W))
-	{
-		// mlx->data->pos[0] -= 0.1;
-	}
+		move_player(FORWARD, mlx->pinfo);
+	else if (mlx_is_key_down(mlx->mlx, MLX_KEY_S))
+		move_player(BACKWARD, mlx->pinfo);
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_D))
+		rotate_player(RIGHT, mlx->pinfo);
+	else if (mlx_is_key_down(mlx->mlx, MLX_KEY_A))
+		rotate_player(LEFT, mlx->pinfo);
+	printf("Angle: %f, PosX: %f, PosY: %f\n", mlx->pinfo->angle, mlx->pinfo->pos_x, mlx->pinfo->pos_y);
+	draw_2d_map(mlx);
 }

@@ -6,11 +6,12 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:43:42 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 13:29:59 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/16 20:02:46 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/parse.h"
+#include "../../INCLUDES/cub3d.h"
 
 int	*find_start_pos(char **map)
 {
@@ -57,7 +58,7 @@ void	flood_map(int x, int y, char **map, t_cnf *data)
 	flood_map(x, y + 1, map, data);
 }
 
-bool	test_map_walls(t_cnf *data)
+bool	test_map_walls(t_cnf *data, t_pinfo *pinfo)
 {
 	char	**cpymap;
 	int		*pos;
@@ -69,7 +70,8 @@ bool	test_map_walls(t_cnf *data)
 	pos = find_start_pos(cpymap);
 	if (!pos || (!pos[0] && pos[1]))
 		return (1);
-	data->pos = convert_arr(pos);
+	pinfo->pos_y = pos[0];
+	pinfo->pos_x = pos[1];
 	flood_map(pos[1], pos[0], cpymap, data);
 	free_2d_array(cpymap);
 	return (data->outside);
