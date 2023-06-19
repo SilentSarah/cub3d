@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:33:17 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/17 19:58:57 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:55:10 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,39 @@
 #include "../INCLUDES/raycast.h"
 #include <stdio.h>
 
-void	move_player(int	direction, t_pinfo *pinfo)
+void	move_player(int	direction, t_pinfo *pinfo, char **map)
 {
-	float	pos_x;
-	float	pos_y;
+	float	x, y;
 
-	
 	if (direction == FORWARD)
 	{
-		pos_x = pinfo->pos_x - SPEED * sin(convert_to_degree(pinfo->angle));
-		pos_y = pinfo->pos_y - SPEED * cos(convert_to_degree(pinfo->angle));
-		pinfo->pos_y = pos_y;
-		pinfo->pos_x = pos_x;
+		y = pinfo->pos_y + SPEED * cos(convert_to_degree(pinfo->angle));
+		x = pinfo->pos_x + SPEED * sin(convert_to_degree(pinfo->angle));
+		if (map[(int)floor(y)][(int)floor(x)] == '1')
+		{
+			pinfo->pos_y -= SPEED * cos(convert_to_degree(pinfo->angle));
+			pinfo->pos_x -= SPEED * sin(convert_to_degree(pinfo->angle));
+		}
+		else
+		{
+			pinfo->pos_y = y;
+			pinfo->pos_x = x;
+		}
 	}
 	else if (direction == BACKWARD)
 	{
-		pos_x = pinfo->pos_x + SPEED * sin(convert_to_degree(pinfo->angle));
-		pos_y = pinfo->pos_y + SPEED * cos(convert_to_degree(pinfo->angle));
-		pinfo->pos_y = pos_y;
-		pinfo->pos_x = pos_x;
+		y = pinfo->pos_y - SPEED * cos(convert_to_degree(pinfo->angle));
+		x = pinfo->pos_x - SPEED * sin(convert_to_degree(pinfo->angle));
+		if (map[(int)floor(y)][(int)floor(x)] == '1')
+		{
+			pinfo->pos_y += SPEED * cos(convert_to_degree(pinfo->angle));
+			pinfo->pos_x += SPEED * sin(convert_to_degree(pinfo->angle));
+		}
+		else
+		{
+			pinfo->pos_y = y;
+			pinfo->pos_x = x;
+		}
 	}
 }
 
@@ -58,13 +72,13 @@ void	key_handler(void *arg)
 
 	mlx = arg;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_W))
-		move_player(FORWARD, mlx->pinfo);
+		move_player(FORWARD, mlx->pinfo, mlx->data->map);
 	else if (mlx_is_key_down(mlx->mlx, MLX_KEY_S))
-		move_player(BACKWARD, mlx->pinfo);
+		move_player(BACKWARD, mlx->pinfo, mlx->data->map);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_D))
 		rotate_player(RIGHT, mlx->pinfo);
 	else if (mlx_is_key_down(mlx->mlx, MLX_KEY_A))
 		rotate_player(LEFT, mlx->pinfo);
-	printf("Angle: %f, PosX: %f, PosY: %f\n", mlx->pinfo->angle, mlx->pinfo->pos_x, mlx->pinfo->pos_y);
+	//printf("Angle: %f, PosX: %f, PosY: %f\n", mlx->pinfo->angle, mlx->pinfo->pos_x, mlx->pinfo->pos_y);
 	draw_2d_map(mlx);
 }

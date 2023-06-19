@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/17 19:29:42 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:57:03 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	initialize_mlx(t_map **mlx)
 void	set_angle(t_map *mlx, float x, float y)
 {
 	if (mlx->data->map[(int)y][(int)x] == 'N')
-		mlx->pinfo->angle = 0;
-	else if (mlx->data->map[(int)y][(int)x] == 'S')
-		mlx->pinfo->angle = 270;
-	else if (mlx->data->map[(int)y][(int)x] == 'W')
 		mlx->pinfo->angle = 180;
-	else if (mlx->data->map[(int)y][(int)x] == 'E')
+	else if (mlx->data->map[(int)y][(int)x] == 'S')
 		mlx->pinfo->angle = 360;
+	else if (mlx->data->map[(int)y][(int)x] == 'W')
+		mlx->pinfo->angle = 0;
+	else if (mlx->data->map[(int)y][(int)x] == 'E')
+		mlx->pinfo->angle = 90;
 }
 
 void	hook_functions(t_map *mlx)
