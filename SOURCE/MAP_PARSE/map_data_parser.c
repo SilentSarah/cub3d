@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:31:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/15 16:45:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:25:39 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ bool	set_cnf_data(char **txt, int *floor, int *ceiling, char **cnf)
 {
 	ft_bzero(floor, 3 * sizeof(int));
 	ft_bzero(ceiling, 3 * sizeof(int));
-	if (calculate_cnfs(cnf))
+	ft_printf(1, "[↻] Extracting Configuration...\n");
+	if (calculate_cnfs(cnf) || set_rgb_values(floor, cnf, 'f')
+		|| set_rgb_values(ceiling, cnf, 'c') || set_texture_data(txt, cnf))
+	{
+		ft_printf(2, "[✘] Invalid Configuration.\n");
 		return (1);
-	if (set_rgb_values(floor, cnf, 'f'))
-		return (1);
-	if (set_rgb_values(ceiling, cnf, 'c'))
-		return (1);
-	if (set_texture_data(txt, cnf))
-		return (1);
+	}
+	ft_printf(1, "[✔] Extraction Complete.\n");
 	return (0);
 }
 
@@ -88,14 +88,13 @@ char	*copy_txt_data(char *origin, char *txt)
 	txt = ft_malloc(ft_strlen(origin));
 	if (!txt)
 		return (NULL);
-	while (origin[++i])
-	{
-		if (i == 0 && ft_strchr("NSWE", origin[i])
-			&& ft_strchr("OEA", origin[i + 1]))
-			i = 2;
-		if (origin[i] > 32)
-			txt[j++] = origin[i];
-	}
+	if (i == 0 && ft_strchr("NSWE", origin[i])
+		&& ft_strchr("OEA", origin[i + 1]))
+		i = 2;
+	while (origin[i] <= 32)
+		i++;
+	while (origin[i])
+		txt[j++] = origin[i++];
 	txt[j] = '\0';
 	return (txt);
 }

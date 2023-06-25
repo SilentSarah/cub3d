@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/19 16:51:02 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:19:33 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@
 # define LEFT 2
 # define RIGHT 3
 
+typedef int t_rgb;
+
+typedef struct s_camera
+{
+	double dirY;
+	double dirX;
+	double planeX;
+	double planeY;
+}	t_cam;
 
 typedef struct s_player_info {
 	float	pos_x;
@@ -43,6 +52,7 @@ typedef struct s_player_info {
 typedef struct s_map_info {
 	t_cnf		*data;
 	t_pinfo		*pinfo;
+	t_cam		*cam;
 	void		*mlx;
 	void		*win;
 	float		*lpos;

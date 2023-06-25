@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:33:51 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 18:51:18 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:59:14 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ bool	extract_values(char *string, int *choice)
 	res = ft_malloc(ft_strlen(string));
 	if (!res)
 		return (1);
+	ft_memset(choice, -1, 3 * sizeof(int));
 	copy_data(res, string);
 	split = ft_split(res, ',');
 	if (!split)
 		return (1);
-	i = -1;
 	while (split[++i])
 		choice[i] = ft_atoi(split[i]);
 	free_2d_array(split);

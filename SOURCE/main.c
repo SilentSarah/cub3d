@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:43:53 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 18:52:58 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:14:42 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int ac, char **av)
 		}
 		if (extract_map_data(mlx, mlx->data))
 		{
-			ft_printf(2, "%s", INV_ERR);
 			free_2d_array(mlx->data->cnf);
 			free_2d_array(mlx->data->map);
 			ft_malloc(-1);

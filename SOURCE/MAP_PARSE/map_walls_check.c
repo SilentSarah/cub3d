@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:43:42 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 20:02:46 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:20:49 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,38 @@ bool	test_map_walls(t_cnf *data, t_pinfo *pinfo)
 		return (1);
 	pos = find_start_pos(cpymap);
 	if (!pos || (!pos[0] && pos[1]))
+	{
+		ft_printf(2, "[✘] Couldn't find Player Starting Point.\n");
 		return (1);
+	}
 	pinfo->pos_y = pos[0];
 	pinfo->pos_x = pos[1];
 	flood_map(pos[1], pos[0], cpymap, data);
 	free_2d_array(cpymap);
 	return (data->outside);
+}
+
+int	get_rgb(t_rgb r, t_rgb g, t_rgb b, float tr)
+{
+	int	result;
+
+	result = r << 24 | g << 16 | b << 8 | (int)(tr * 255);
+	return (result);
+}
+
+float	*convert_arr(int *pos)
+{
+	int		i;
+	float	*lpos;
+
+	if (!pos)
+		return (NULL);
+	lpos = ft_malloc(2 * sizeof(float));
+	if (!lpos)
+		return (NULL);
+	ft_bzero(lpos, 2 * sizeof(float));
+	i = -1;
+	while (++i < 2)
+		lpos[i] = pos[i];
+	return (lpos);
 }

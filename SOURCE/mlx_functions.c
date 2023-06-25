@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/19 17:57:03 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:20:28 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	initialize_mlx(t_map **mlx)
 		return (exit(1));
 	(*mlx)->data = ft_malloc(sizeof(t_cnf));
 	(*mlx)->pinfo = ft_malloc(sizeof(t_pinfo));
-	if (!(*mlx)->data || !(*mlx)->pinfo)
+	(*mlx)->cam = ft_malloc(sizeof(t_cam));
+	if (!(*mlx)->data || !(*mlx)->pinfo || !(*mlx)->cam)
 	{
 		ft_malloc(-1);
 		exit (1);
@@ -35,24 +36,22 @@ void	initialize_mlx(t_map **mlx)
 	(*mlx)->data->map = NULL;
 }
 
-void	set_angle(t_map *mlx, float x, float y)
+void	init_player_data(t_pinfo *pinfo, t_cnf *data)
 {
-	if (mlx->data->map[(int)y][(int)x] == 'N')
-		mlx->pinfo->angle = 180;
-	else if (mlx->data->map[(int)y][(int)x] == 'S')
-		mlx->pinfo->angle = 360;
-	else if (mlx->data->map[(int)y][(int)x] == 'W')
-		mlx->pinfo->angle = 0;
-	else if (mlx->data->map[(int)y][(int)x] == 'E')
-		mlx->pinfo->angle = 90;
+	if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'N')
+		pinfo->angle = 90 * (M_PI / 180);
+	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'E')
+		pinfo->angle = 360 * (M_PI / 180);
+	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'S')
+		pinfo->angle = 270 * (M_PI / 180);
+	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'W')
+		pinfo->angle = 180 * (M_PI / 180);
 }
 
 void	hook_functions(t_map *mlx)
 {
 	mlx->image = mlx_new_image(mlx->mlx, WIN_X, WIN_Y);
 	mlx_image_to_window(mlx->mlx, mlx->image, 0, 0);
-	set_angle(mlx, mlx->pinfo->pos_x, mlx->pinfo->pos_y);
-	draw_2d_map(mlx);
 	mlx_loop_hook(mlx->mlx, &key_handler, mlx);
 	mlx_loop(mlx->mlx);
 }
