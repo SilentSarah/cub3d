@@ -1,5 +1,5 @@
-CC = gcc
-FLAGS = -Wall -Werror -Wextra
+CC = cc
+FLAGS = -fsanitize=address -g
 NAME = cub
 
 SRC =	cub.c\
@@ -38,7 +38,7 @@ SRC =	cub.c\
 		\
 
 
-%.o: %.c %.h
+%.o: %.c
 	$(CC) -c  -o $@ $<
 
 OBJ = $(SRC:%.c=%.o)
@@ -48,12 +48,12 @@ OBJ = $(SRC:%.c=%.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@$(CC)    libmlx42.a -Iinclude -lglfw $(OBJ) -o $(NAME)
+	@$(CC)  libmlx42.a -Iinclude -lglfw $(OBJ) -o $(NAME)
 
 fclean :
-	@rm -rf $(BOBJ) $(OBJ) $(NAME) $(BNAME)
+	@rm -rf $(OBJ) $(NAME)
 
 clean :
-	@rm -rf $(OBJ) $(BOBJ)
+	@rm -rf $(OBJ)
 
 re : fclean all
