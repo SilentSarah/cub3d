@@ -6,29 +6,17 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/19 13:10:43 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/19 13:17:00 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-#include <MLX42/include/MLX42/MLX42.h>
-#include <MLX42/include/MLX42/MLX42_Input.h>
-#include <complex.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <math.h>
-#include "pipi.ppm"
-#include "texture.ppm"
+#include "../INCLUDES/cub3d.h"
 
 #define WIDTH 512
-// #define PI 3.14159265
 	mlx_t* mlx;
 
 float PI = M_PI , DR = M_PI / 180;
 static mlx_image_t* image1;
-static mlx_image_t* image2;
-static mlx_image_t* image;
 typedef struct s_texture{
 	mlx_texture_t *north;
 	mlx_texture_t *west;
@@ -36,18 +24,18 @@ typedef struct s_texture{
 	mlx_texture_t *east;
 }t_texture;
 t_texture t;
-double map_s = 0.6;
+int map_hight, map_width;
+double map_s = 0.2;
 double rays[640][3];
 char **map;
 double dst = 0;
 double cent_y = 190.005414, cent_x = 199.840863;
-// double cent_y = 200, cent_x = 200;
 double px,py,pa = M_PI_4;
 
 
 // -----------------------------------------------------------------------------
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+int ft_pixel(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
@@ -100,32 +88,6 @@ void rand_map(void)
 		x++;
 	}
 }
-
-// void player(void)
-// {
-// 	int x = -8;
-// 	int y;
-// 	int err;
-
-// 	while (x <= 8)
-// 	{
-// 		y = -8;
-// 		while (y <= 8)
-// 		{
-// 			err = x * x + y * y - 8 * 8;
-// 			if (err <= 0)
-// 				mlx_put_pixel(image1,  200 + y, 200 + x , ft_pixel(255, 0, 0, 255));
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// 	double r= 0, t = 0;
-// 	while(r < 40)
-// 	{
-// 		mlx_put_pixel(image1, 200 + t, 200 - r,  ft_pixel(255, 0, 0, 255));
-// 		r++;
-// 	}
-// }
 
 void drawline1(int x0, int y0, int x1, int y1)
 {
@@ -229,15 +191,15 @@ void my_clear()
 	r = 0;
 	f = 0;
 
-	while(f <  640)
+	while(f <  map_width)
 	{
 		r = 0;
-		while(r < 220)
+		while(r < map_hight/2)
 		{
 			mlx_put_pixel(image1,  f, r, ft_pixel(0, 255, 255, 100));
 			r++;
 		}
-		while(r < 440)
+		while(r < map_hight)
 		{
 			mlx_put_pixel(image1,  f, r, ft_pixel(255, 229, 204, 255));
 			r++;
@@ -248,61 +210,30 @@ void my_clear()
 }
 int hardcode(int rvy,int rvx, double ra)
 {
-	if (ra <= 2 *PI && ra >= (PI + (PI /2))){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
+	if (ra <= 2 *M_PI && ra >= (M_PI + (M_PI /2))){
+	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
 	{
 		if (map[rvy / 40 + 1][rvx / 40] == '1' && map[rvy / 40][rvx / 40 - 1] == '1')
 			return (1);
 	}}
-	else if (ra <= (PI + (PI /2)) && ra > PI){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
+	else if (ra <= (M_PI + (M_PI /2)) && ra > M_PI){
+	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
 	{
 		if (map[rvy / 40][rvx / 40 + 1] == '1' && map[rvy / 40 + 1][rvx / 40] == '1')
 			return (1);
 	}
 	}
-	else if (ra <= PI && ra >= PI / 2){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
+	else if (ra <= M_PI && ra >= M_PI / 2){
+	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
 	{
 			if (map[rvy / 40][rvx / 40 +1] == '1' && map[rvy / 40 -1][rvx / 40] == '1')
 			return (1);
 
 	}}
-	else if(ra <= PI/2 && ra >= 0){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
+	else if(ra <= M_PI/2 && ra >= 0){
+	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
 	{
 		if (map[rvy / 40][rvx / 40 -1] == '1' && map[rvy / 40-1][rvx / 40] == '1')
-			return (1);
-	}}
-	return (0);
-}
-
-int hardcode1(int rvy,int rvx)
-{
-	if (pa <= 2 *PI && pa >= (PI + (PI /2))){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
-	{
-		if (map[(rvy + 20)/ 40][rvx / 40] == '1' && map[rvy / 40][(rvx - 20)/ 40] == '1')
-			return (1);
-	}}
-	else if (pa <= (PI + (PI /2)) && pa > PI){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
-	{
-		if (map[rvy / 40][(rvx + 20) / 40] == '1' && map[(rvy + 20) / 40][rvx / 40] == '1')
-			return (1);
-	}
-	}
-	else if (pa <= PI && pa >= PI / 2){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
-	{
-			if (map[rvy / 40][(rvx + 20) / 40] == '1' && map[(rvy - 20) / 40][rvx / 40] == '1')
-			return (1);
-
-	}}
-	else if(pa <= PI/2 && pa >= 0){
-	if ((rvy > 0 && rvy < 560) && (rvx > 0 && rvy < 360))
-	{
-		if (map[rvy / 40][(rvx - 20) / 40] == '1' && map[(rvy - 20) / 40][rvx / 40] == '1')
 			return (1);
 	}}
 	return (0);
@@ -314,14 +245,14 @@ void hor_line(double *a, double* b, double *c)
 	// int dof;
 	double xo=0,yo =0 ;
 	double ra = *c;
-	if ( ra >= PI)
+	if ( ra >= M_PI)
 	{
 		ry = (((int)(cent_y / 40))  *40)-0.00001;
 		rx = cent_x - ((cent_y - ry) / (tan(ra)+0.00001));
 		yo = -40;
 		xo = yo / (tan(ra) + 0.00001);
 	}
-	if (ra < PI)
+	if (ra < M_PI)
 	{
 		ry = (((int)(cent_y / 40))  *40) + 40;
 		rx = cent_x + (cent_y - ry) / -(tan(ra)+0.00001);
@@ -330,7 +261,7 @@ void hor_line(double *a, double* b, double *c)
 	}
 	while(1)
 	{
-		if (((int)rx > 560) || ((int)ry > 360) || ((int)rx < 0) || ((int)ry < 0))
+		if (((int)rx > (map_width-80)) || ((int)ry > (map_hight-80)) || ((int)rx < 0) || ((int)ry < 0))
 			break;
 		if (map[(int)(ry / 40)][(int)((rx) / 40)] == '1')
 				break;
@@ -352,14 +283,14 @@ int mp=0,mx = 0, my = 0,dof;
 	double xo=0,yo =0, rvx=0, rvy=0 ;
 	double ra = *c;
 
-		if ((ra >=  PI / 2) || ra < (3*PI/ 2))
+		if ((ra >=  M_PI / 2) || ra < (3*M_PI/ 2))
 		{
 			rvx = (((int)(cent_x / 40)) * 40) - 0.000001;
 			rvy = cent_y - (cent_x - rvx) * tan(ra);
 			xo = -40;
 			yo = xo * tan(ra);
 		}
-		if ((ra <  PI / 2) || ra >= (3*PI/ 2))
+		if ((ra <  M_PI / 2) || ra >= (3*M_PI/ 2))
 		{
 			rvx = (((int)(cent_x / 40)) * 40) + 40.0001;
 			rvy = cent_y + (cent_x - rvx) * -tan(ra);
@@ -368,7 +299,7 @@ int mp=0,mx = 0, my = 0,dof;
 		}
 		while(1)
 		{
-		if (((int)rvx > 560) || ((int)rvy > 360) || ((int)rvx < 0) || ((int)rvy < 0))
+		if (((int)rvx > (map_width-80)) || ((int)rvy > (map_hight-80)) || ((int)rvx < 0) || ((int)rvy < 0))
 			break;
 		if (hardcode(rvy, rvx, ra) == 1)
 				break;
@@ -386,13 +317,13 @@ int mp=0,mx = 0, my = 0,dof;
 
 void where(int *red, int *green, int*blue, double ra, int c)
 {
-		if ((ra >=  PI / 2) || ra < (3*PI/ 2))
+		if ((ra >=  M_PI / 2) || ra < (3*M_PI/ 2))
 		{
 			*red = t.west->pixels[c+0];
 			*green = t.west->pixels[c+1];
 			*blue = t.west->pixels[c+2];
 		}
-		if ((ra <  PI / 2) || ra >= (3*PI/ 2))
+		if ((ra <  M_PI / 2) || ra >= (3*M_PI/ 2))
 		{
 			*red = t.east->pixels[c+0];
 			*green = t.east->pixels[c+1];
@@ -403,7 +334,7 @@ void where(int *red, int *green, int*blue, double ra, int c)
 
 void where1(int *red, int *green, int*blue, double ra, int c)
 {
-		if (ra > M_PI )
+		if (ra > M_PI)
 		{
 			*red = t.north->pixels[c+0];
 			*green = t.north->pixels[c+1];
@@ -435,7 +366,7 @@ void projecting1(int i, double ra, double rx)
 		ty_off = (lineh-440)/2.0;
 		lineh =440;
 	}
-	int lineo = (220 - lineh/2);
+	int lineo = ((220) - (lineh/2));
 	int s = 0;
 	int c,red, green, blue;
 	double ty= ty_off * ty_step;
@@ -445,16 +376,9 @@ void projecting1(int i, double ra, double rx)
 		tx = 63 -tx;
 	while (s < lineh)
 	{
-		// c = lol[(int)ty*32 + (int)tx];
-		// if (c == 1)
-		// 	c = 255;
 		c = ((int)ty*64 + (int)tx)*4;
 		where1(&red, &green, &blue, ra, c);
-		// red = t.north->pixels[(int)c + 0];
-		// green = t.north->pixels[(int)c + 1];
-		// blue = t.north->pixels[(int)c + 2];
 		mlx_put_pixel(image1, i, s+lineo, ft_pixel(red, green, blue, 155));
-		// mlx_put_pixel(image1, i, s+lineo, ft_pixel(c, c, c, 255));
 		s++;
 		ty += ty_step;
 	}
@@ -476,7 +400,7 @@ void projecting2(int i, double ra, double ry)
 		ty_off = (lineh-440)/2.0;
 		lineh =440;
 	}
-	int lineo = (220 - lineh/2);
+	int lineo = ((220) - (lineh/2));
 	int s = 0;
 	int c,red, green, blue, opacity;
 	double ty= ty_off*ty_step;
@@ -485,14 +409,8 @@ void projecting2(int i, double ra, double ry)
 		tx = 63-tx;
 	while (s < lineh)
 	{
-		// c = lol[(int)ty*32 + (int)tx];
-		// if (c == 1)
-		// 	c = 255;
 		c = ((int)ty*64 + (int)tx)*4;
 		where(&red, &green, &blue, ra, c);
-		// red = t.south->pixels[(int)c + 0];
-		// green = t.south->pixels[(int)c + 1];
-		// blue = t.south->pixels[(int)c + 2];
 		mlx_put_pixel(image1, i, s+lineo, ft_pixel(red, green, blue, 255));
 		s++;
 		ty += ty_step;
@@ -504,11 +422,10 @@ void drawray()
 	double rx=10000000,ry=100000,rvx=10000000,rvy =10000000; int i = 0 ;
 	double ra;
 	ra = pa - DR *30;
-	// ra = pa;
 	if(ra < 0)
-		ra += 2 * PI;
-	if (ra > 2 * PI)
-		ra -= 2 * PI;
+		ra += 2 * M_PI;
+	if (ra > 2 * M_PI)
+		ra -= 2 * M_PI;
 	while ( i < 640)
 	{
 	hor_line(&ry, &rx, &ra);
@@ -523,7 +440,6 @@ void drawray()
 		projecting1(i, ra, rx);
 		rays[i][0] = rx;
 		rays[i][1] = ry;
-		// drawline1(cent_x, cent_y, rx, ry);
 	}
 	else if (x2 < x1)
 	{
@@ -531,23 +447,22 @@ void drawray()
 		projecting2(i, ra, rvy);
 		rays[i][0] = rvx;
 		rays[i][1] = rvy;
-		// drawline1(cent_x, cent_y, rvx, rvy);
 	}
 	i++;
 	 ra += (DR*60)/640;
 		if(ra < 0)
-			ra += 2 * PI;
-		if (ra > 2 * PI)
-			ra -= 2 * PI;
+			ra += 2 * M_PI;
+		if (ra > 2 * M_PI)
+			ra -= 2 * M_PI;
 	}
 }
 void ft_randomize(void *parm)
 {
 	my_clear();
 	drawray();
-	drawline(cent_x, cent_y, (cent_x + px), (cent_y + py));
 	rand_map();
 	player();
+	drawline(cent_x, cent_y, (cent_x + px), (cent_y + py));
 }
 
 void ft_hook(mlx_key_data_t keydata, void* param)
@@ -609,57 +524,38 @@ void ft_hook(mlx_key_data_t keydata, void* param)
 	{
 		pa -= 0.05;
 		if (pa <= 0)
-			pa+=2*PI;
-		px = cos(pa) * 50;
-		py = sin(pa) * 50 ;
+			pa+=2*M_PI;
+		px = cos(pa) * 40;
+		py = sin(pa) * 40;
 	}
 	if (keydata.key == MLX_KEY_D)
 	{
 		pa += 0.05;
-		if (pa >= 2 * PI)
-			pa-=2*PI;
-		px = cos(pa) * 50;
-		py = sin(pa) * 50;
+		if (pa >= 2 * M_PI)
+			pa-=2*M_PI;
+		px = cos(pa) * 40;
+		py = sin(pa) * 40;
 	}
 }
 
 // -----------------------------------------------------------------------------
 
-int32_t main(int32_t argc, const char* argv[])
+int raycasting(t_map *doom)
 {
-	map = malloc(sizeof(char*) * 10 + 1);
-	map[0] = "111111111111111";
-	map[1] = "100000001010001";
-	map[2] = "100000001010001";
-	map[3] = "100000001010001";
-	map[4] = "100000010100001";
-	map[5] = "100100000000001";
-	map[6] = "100100010000011";
-	map[7] = "100000001000101";
-	map[8] = "100000000000001";
-	map[9] = "111111111111111";
-	map[10] = 0;
-	pa = 5.530000;
-	px = cos(pa) * 40;
-	py = sin(pa) * 40;
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(600, 400, "MLX42", false)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
 	t.north = mlx_load_png("./north.png");
 	t.south = mlx_load_png("./south.png");
 	t.west = mlx_load_png("./west.png");
 	t.east = mlx_load_png("./east.png");
-	image = mlx_new_image(mlx, 640, 440);
-	image2 = mlx_new_image(mlx, 640, 440);
-	image1 = mlx_new_image(mlx, 640, 440);
-	mlx_image_to_window(mlx, image, 0, 0);
+	pa = M_PI + M_PI_2;
+	px = cos(pa) * 40;
+	py = sin(pa) * 40;
+	map_hight = (40 * doom->map_hight) + 40;
+	map_width = (40 * doom->doom_width) + 40;
+	mlx = mlx_init(640, 440, "MLX42", false);
+	image1 = mlx_new_image(mlx, map_width, map_hight);
 	mlx_image_to_window(mlx, image1, 0, 0);
-	// mlx_image_to_window(mlx, image2, 0, 0);
 	mlx_key_hook(mlx,&ft_hook, 0);
-	mlx_loop_hook(mlx, ft_randomize, mlx);
+	mlx_loop_hook(mlx, ft_randomize, &doom);
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

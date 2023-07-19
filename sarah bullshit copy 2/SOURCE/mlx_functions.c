@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/18 16:17:22 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:07:24 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_player_data(t_pinfo *pinfo, t_cnf *data)
 		pinfo->angle = 180 * (M_PI / 180);
 }
 
-void	hook_functions(t_map *mlx)
-{
+// void	hook_functions(t_map *mlx)
+// {
 
-}
+// }
