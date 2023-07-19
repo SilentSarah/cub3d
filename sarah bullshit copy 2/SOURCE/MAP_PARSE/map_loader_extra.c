@@ -6,12 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:33:51 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/24 17:59:14 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 16:41:02 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
-#include "../../INCLUDES/parse.h"
 
 char	**datasplit_cnf(char *start, char *end)
 {
@@ -76,5 +75,6 @@ bool	extract_map_data(t_map *mlx, t_cnf *data)
 		return (1);
 	if (parse_map(mlx, data->map))
 		return (1);
+	add_padding(data->map, mlx);
 	return (false);
 }

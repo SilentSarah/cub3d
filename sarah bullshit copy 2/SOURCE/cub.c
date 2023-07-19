@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/19 13:17:00 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/19 16:49:14 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,7 @@
 
 float PI = M_PI , DR = M_PI / 180;
 static mlx_image_t* image1;
-typedef struct s_texture{
-	mlx_texture_t *north;
-	mlx_texture_t *west;
-	mlx_texture_t *south;
-	mlx_texture_t *east;
-}t_texture;
+
 t_texture t;
 int map_hight, map_width;
 double map_s = 0.2;
@@ -542,10 +537,7 @@ void ft_hook(mlx_key_data_t keydata, void* param)
 
 int raycasting(t_map *doom)
 {
-	t.north = mlx_load_png("./north.png");
-	t.south = mlx_load_png("./south.png");
-	t.west = mlx_load_png("./west.png");
-	t.east = mlx_load_png("./east.png");
+	// doom->t->t[NO]->pixels
 	pa = M_PI + M_PI_2;
 	px = cos(pa) * 40;
 	py = sin(pa) * 40;

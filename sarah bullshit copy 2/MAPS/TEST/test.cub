@@ -1,7 +1,7 @@
-NO ./tst_ file_txt
-SO ./dwyfgwf
-WE ./ekmefemfp
-EA ./faojfpaijap
+NO ./MAPS/TEST/north.png
+SO ./MAPS/TEST/south.png
+WE ./MAPS/TEST/west.png
+EA ./MAPS/TEST/east.png
 
 F 220,100,0
 C 225,30,0

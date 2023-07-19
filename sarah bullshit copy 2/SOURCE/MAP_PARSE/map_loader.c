@@ -6,11 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:08:34 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/16 15:07:47 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:52:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/parse.h"
+#include "../../INCLUDES/cub3d.h"
 
 int	check_extension(char *file_name)
 {

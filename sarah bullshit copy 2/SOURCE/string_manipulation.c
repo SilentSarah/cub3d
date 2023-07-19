@@ -6,11 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 17:01:41 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/15 16:45:27 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:52:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/parse.h"
+#include "../INCLUDES/cub3d.h"
 
 char	*_strcpy(char *dst, char *src)
 {

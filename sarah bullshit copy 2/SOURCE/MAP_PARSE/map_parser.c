@@ -6,12 +6,12 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 12:05:31 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/24 18:26:10 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:52:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
-#include "../../INCLUDES/parse.h"
+#include "../../INCLUDES/cub3d.h"
 
 bool	check_inv_elements(char **map)
 {

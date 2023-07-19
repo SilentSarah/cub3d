@@ -6,11 +6,12 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:46:45 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/15 16:45:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:01:41 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/parse.h"
+#include "../../INCLUDES/cub3d.h"
+#include "../../INCLUDES/cub3d.h"
 
 void	free_2d_array(char	**ptr)
 {
@@ -52,4 +53,46 @@ void	print_map_cnf(t_cnf *data)
 	i = -1;
 	while (data->map[++i])
 		ft_printf(1, "%s\n", data->map[i]);
+}
+
+char	*add_spaces(char *map_el, int b_len)
+{
+	int		i;
+	char	*res;
+
+	res = ft_malloc(b_len + 1);
+	if (!res)
+		return (NULL);
+	i = ft_strlcpy(res, map_el, b_len);
+	while (i < b_len)
+		res[i++] = ' ';
+	res[i] = '\0';
+	return (res);
+}
+
+int	find_len(char **map, t_map *mlx)
+{
+	int	i;
+	int b_len;
+
+	i = -1;
+	b_len = 0;
+	while (map[++i])
+		if (ft_strlen(map[i]) > b_len)
+			b_len = ft_strlen(map[i]);
+	mlx->doom_hight = i - 1;
+	mlx->doom_width = b_len;
+	return (b_len);
+}
+
+void	add_padding(char **map, t_map *mlx)
+{
+	int		i;
+	size_t	max_len;
+
+	i = -1;
+	max_len = find_len(map, mlx);
+	while (map[++i])
+		if (ft_strlen(map[i]) < max_len)
+			map[i] = add_spaces(map[i], max_len);
 }

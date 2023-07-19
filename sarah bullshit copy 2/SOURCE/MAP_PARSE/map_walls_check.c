@@ -6,11 +6,11 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:43:42 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/24 18:20:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:52:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/parse.h"
+#include "../../INCLUDES/cub3d.h"
 #include "../../INCLUDES/cub3d.h"
 
 int	*find_start_pos(char **map)

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/19 12:07:24 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/19 16:45:22 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCLUDES/cub3d.h"
-#include "../INCLUDES/raycast.h"
 
 void	initialize_mlx(t_map **mlx)
 {
@@ -20,8 +19,7 @@ void	initialize_mlx(t_map **mlx)
 		return (exit(1));
 	(*mlx)->data = ft_malloc(sizeof(t_cnf));
 	(*mlx)->pinfo = ft_malloc(sizeof(t_pinfo));
-	(*mlx)->cam = ft_malloc(sizeof(t_cam));
-	if (!(*mlx)->data || !(*mlx)->pinfo || !(*mlx)->cam)
+	if (!(*mlx)->data || !(*mlx)->pinfo)
 	{
 		ft_malloc(-1);
 		exit (1);
@@ -36,19 +34,29 @@ void	initialize_mlx(t_map **mlx)
 	(*mlx)->data->map = NULL;
 }
 
-void	init_player_data(t_pinfo *pinfo, t_cnf *data)
+int	load_textures(t_map *mlx)
 {
-	if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'N')
-		pinfo->angle = 90 * (M_PI / 180);
-	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'E')
-		pinfo->angle = 360 * (M_PI / 180);
-	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'S')
-		pinfo->angle = 270 * (M_PI / 180);
-	else if (data->map[(int)pinfo->pos_y][(int)pinfo->pos_x] == 'W')
-		pinfo->angle = 180 * (M_PI / 180);
+	int		i;
+
+	i = -1;
+	mlx->t = ft_malloc(sizeof(t_texture));
+	if (!mlx->t)
+		return (1);
+	ft_bzero(mlx->t, sizeof(t_texture));
+	ft_printf(1, "[↻] Loading Textures...\n");
+	while (++i < 4)
+	{
+		mlx->t->t[i] = mlx_load_png(mlx->data->textures[i]);
+		if (!mlx->t->t[i]
+			|| (mlx->t->t[i]->width != 64 || mlx->t->t[i]->height != 64))
+		{
+			i = -1;
+			while (++i < 4)
+				if (mlx->t->t[i])
+					mlx_delete_texture(mlx->t->t[i]);
+			ft_printf(2, "[✘] Invalid Textures, or Invalid Texture Location.\n");
+			return (1);
+		}
+	}
+	return (0);
 }
-
-// void	hook_functions(t_map *mlx)
-// {
-
-// }

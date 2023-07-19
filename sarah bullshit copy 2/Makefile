@@ -5,12 +5,12 @@ FLAGS = #-Wall -Werror -Wextra -fsanitize=address
 
 #Source files
 SOURCE_PARSE = $(addprefix SOURCE/MAP_PARSE/, assist_funcs.c map_parser.c map_walls_check.c map_data_parser.c map_loader.c map_loader_extra.c map_loader_support.c)
-SOURCE_ASSIST = $(addprefix SOURCE/, main.c string_manipulation.c mlx_functions.c mlx_key_hook.c cub.c)
+SOURCE_ASSIST = $(addprefix SOURCE/, main.c string_manipulation.c mlx_functions.c mlx_key_hook.c )
 SOURCE_RAYCAST = $(addprefix SOURCE/RAYCAST/,)
 
 #Object Holder
 OBJ_HOLD = $(addprefix OBJ/, assist_funcs.o map_parser.o map_walls_check.o map_data_parser.o map_loader.o map_loader_extra.o \
-							 map_loader_support.o main.o string_manipulation.o mlx_functions.o mlx_key_hook.o cub.o)
+							 map_loader_support.o main.o string_manipulation.o mlx_functions.o mlx_key_hook.o )
 
 # Libraries
 MLX42 = libmlx42.a
@@ -35,7 +35,7 @@ all: $(LIBFT) $(MALLOC) $(PRINTF) $(NAME)
 
 # Norminette
 norm:
-	norminette ft_malloc libft ft_printf SOURCE/ INCLUDES/parse.h INCLUDES/cub3d.h
+	norminette ft_malloc libft ft_printf SOURCE/ INCLUDES/cub3d.h
 
 $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@make -C libft
