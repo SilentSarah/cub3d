@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/20 16:40:36 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:43:37 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,16 @@ void	my_clear(t_map *doom)
 		r = 0;
 		while (r < 220)
 		{
-			mlx_put_pixel(doom->image1, f, r, ft_pixel(0, 255, 255, 100));
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->c_value[0], doom->data->c_value[1],
+					doom->data->c_value[2], 100));
 			r++;
 		}
 		while (r < 440)
 		{
-			mlx_put_pixel(doom->image1, f, r, ft_pixel(255, 229, 204, 255));
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->f_value[0], doom->data->f_value[1],
+					doom->data->f_value[2], 255));
 			r++;
 		}
 		f++;
