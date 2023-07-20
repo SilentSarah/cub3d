@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/19 16:44:14 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:33:08 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ enum e_rgb_values {
 };
 
 typedef struct s_player_info {
-	float	pos_x;
-	float	pos_y;
-	float	angle;
+	double	pos_x;
+	double	pos_y;
+	double	angle;
 }	t_pinfo;
 
 typedef struct s_texture {
@@ -82,9 +82,63 @@ typedef struct s_map_info {
 	int			doom_width;
 	int			map_hight;
 	int			map_width;
-	mlx_image_t	*image;
+	double		cent_y;
+	double		cent_x;
+	double		pa;
+	double		py;
+	double		px;
+	double		dst;
+	double		rays[640][3];
+	double		map_s;
+	mlx_image_t	*image1;
+	double		dr;
 }	t_map;
 
+typedef struct s_ray{
+	double	rx;
+	double	ry;
+	double	rvx;
+	double	rvy;
+	double	ra;
+	double	x1;
+	double	x2;
+	double	xo;
+	double	yo;
+}	t_ray;
+
+typedef struct s_project{
+	double	ca;
+	int		lineh;
+	int		lineo;
+	double	ty_step;
+	double	ty_off;
+	double	ty;
+	double	tx;
+}	t_project;
+
+typedef struct s_rgba{
+	int	blue;
+	int	green;
+	int	red;
+}t_rgba;
+
+typedef struct s_bresenham{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+
+}t_bresnham;
+
+typedef struct s_bresenham_help{
+	int	dx;
+    int	dy;
+    int	sx;
+	int	sy;
+    int	err;
+    int	e2;
+
+}t_bresnham_h;
 
 bool	extract_map_data(t_map *mlx, t_cnf *data);
 bool	test_map_walls(t_cnf *data, t_pinfo *pinfo);

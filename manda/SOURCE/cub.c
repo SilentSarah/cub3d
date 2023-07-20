@@ -3,553 +3,524 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/19 16:49:14 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:47:31 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCLUDES/cub3d.h"
+#include <math.h>
+#include "stdio.h"
 
-#define WIDTH 512
-	mlx_t* mlx;
-
-float PI = M_PI , DR = M_PI / 180;
-static mlx_image_t* image1;
-
-t_texture t;
-int map_hight, map_width;
-double map_s = 0.2;
-double rays[640][3];
-char **map;
-double dst = 0;
-double cent_y = 190.005414, cent_x = 199.840863;
-double px,py,pa = M_PI_4;
-
-
-// -----------------------------------------------------------------------------
-
-int ft_pixel(int r, int g, int b, int a)
+int	ft_pixel(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
-
-void rect1(int x, int y)
+void	my_clear(t_map *doom)
 {
-	int r, f;
+	int	r;
+	int	f;
+
 	r = 0;
 	f = 0;
-
-	while(++f <  40)
+	while (f < 640)
 	{
 		r = 0;
-		while(++r < 40)
+		while (r < 220)
 		{
-			mlx_put_pixel(image1,  (r + (y * 40))*map_s, (f + (x * 40))*map_s , ft_pixel(255, 255, 255, 255));
-		}
-	}
-}
-void rect(int x, int y)
-{
-	int r, f;
-	r = 0;
-	f = 0;
-
-	while(++f <  40)
-	{
-		r = 0;
-		while(++r < 40)
-		{
-			mlx_put_pixel(image1,  (r + (y * 40))*map_s, (f + (x * 40))*map_s , ft_pixel(0, 0, 0, 255));
-		}
-	}
-}
-
-void rand_map(void)
-{
-	int x = 0,y = 0;
-	while(map[x])
-	{
-		y = 0;
-		while(map[x][y])
-		{
-			if (map[x][y] == '1')
-				rect(x, y);
-			else
-			 	rect1(x, y);
-			y++;
-		}
-		x++;
-	}
-}
-
-void drawline1(int x0, int y0, int x1, int y1)
-{
-	int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx, sy;
-    if (x0 < x1)
-        sx = 1;
-    else
-        sx = -1;
-    if (y0 < y1)
-        sy = 1;
-    else
-        sy = -1;
-
-    int err = dx - dy;
-    int e2;
-    while (1)
-    {
-		mlx_put_pixel(image1,  x0*map_s, y0*map_s, ft_pixel(255, 0, 0, 255));
-		// mlx_put_pixel(image1,  x0, y0, 0xFF0000FF);
-        if (x0 == x1 && y0 == y1)
-            break;
-        e2 = err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
-
-void drawline(int x0, int y0, int x1, int y1)
-{
-	int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx, sy;
-    if (x0 < x1)
-        sx = 1;
-    else
-        sx = -1;
-    if (y0 < y1)
-        sy = 1;
-    else
-        sy = -1;
-
-    int err = dx - dy;
-    int e2;
-    while (1)
-    {
-		mlx_put_pixel(image1,  x0*map_s, y0*map_s, ft_pixel(0, 0, 255, 255));
-        if (x0 == x1 && y0 == y1)
-            break;
-        e2 = err * 2;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
-
-
-void player(void)
-{
-int f = cent_x - 4;
-int r = cent_y - 4;
-int x = cent_x + 4;
-int y = cent_y + 4;
-
-while(f <= x)
-{
-	r = cent_y - 4;
-	while(r <= y)
-	{
-		mlx_put_pixel(image1,	f*map_s, r*map_s, ft_pixel(255, 0, 0, 255));
-		r++;
-	}
-	f++;
-}
-int i = 0;
-while (i < 640)
-{
-	drawline1(cent_x, cent_y, rays[i][0], rays[i][1]);
-	i++;
-}
-}
-void my_clear()
-{
-	int r, f;
-	r = 0;
-	f = 0;
-
-	while(f <  map_width)
-	{
-		r = 0;
-		while(r < map_hight/2)
-		{
-			mlx_put_pixel(image1,  f, r, ft_pixel(0, 255, 255, 100));
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->c_value[0], doom->data->c_value[1],
+					doom->data->c_value[2], 100));
 			r++;
 		}
-		while(r < map_hight)
+		while (r < 440)
 		{
-			mlx_put_pixel(image1,  f, r, ft_pixel(255, 229, 204, 255));
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->f_value[0], doom->data->f_value[1],
+					doom->data->f_value[2], 255));
 			r++;
 		}
 		f++;
 	}
-
 }
-int hardcode(int rvy,int rvx, double ra)
+int	hardecode_part2(int rvy, int rvx, double ra, t_map *doom)
 {
-	if (ra <= 2 *M_PI && ra >= (M_PI + (M_PI /2))){
-	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
+	if (ra <= M_PI && ra >= M_PI / 2)
 	{
-		if (map[rvy / 40 + 1][rvx / 40] == '1' && map[rvy / 40][rvx / 40 - 1] == '1')
-			return (1);
-	}}
-	else if (ra <= (M_PI + (M_PI /2)) && ra > M_PI){
-	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
-	{
-		if (map[rvy / 40][rvx / 40 + 1] == '1' && map[rvy / 40 + 1][rvx / 40] == '1')
-			return (1);
+		if ((rvy > 0 && rvy < (doom->map_width - 80)) && (rvx > 0
+				&& rvy < (doom->map_hight - 80)))
+		{
+			if (doom->data->map[rvy / 40][rvx / 40 +1] == '1'
+				&& doom->data->map[rvy / 40 -1][rvx / 40] == '1')
+				return (1);
+		}
 	}
+	else if (ra <= M_PI / 2 && ra >= 0)
+	{
+		if ((rvy > 0 && rvy < (doom->map_width - 80))
+			&& (rvx > 0 && rvy < (doom->map_hight - 80)))
+		{
+			if (doom->data->map[rvy / 40][rvx / 40 -1] == '1'
+				&& doom->data->map[rvy / 40 - 1][rvx / 40] == '1')
+				return (1);
+		}
 	}
-	else if (ra <= M_PI && ra >= M_PI / 2){
-	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
-	{
-			if (map[rvy / 40][rvx / 40 +1] == '1' && map[rvy / 40 -1][rvx / 40] == '1')
-			return (1);
-
-	}}
-	else if(ra <= M_PI/2 && ra >= 0){
-	if ((rvy > 0 && rvy < (map_width - 80)) && (rvx > 0 && rvy < (map_hight-80)))
-	{
-		if (map[rvy / 40][rvx / 40 -1] == '1' && map[rvy / 40-1][rvx / 40] == '1')
-			return (1);
-	}}
 	return (0);
 }
 
-void hor_line(double *a, double* b, double *c)
+int	hardcode(int rvy, int rvx, double ra, t_map *doom)
 {
-	double rx = 0, ry = 0;
-	// int dof;
-	double xo=0,yo =0 ;
-	double ra = *c;
-	if ( ra >= M_PI)
+	if (ra <= 2 * M_PI && ra >= (M_PI + (M_PI / 2)))
 	{
-		ry = (((int)(cent_y / 40))  *40)-0.00001;
-		rx = cent_x - ((cent_y - ry) / (tan(ra)+0.00001));
-		yo = -40;
-		xo = yo / (tan(ra) + 0.00001);
+		if ((rvy > 0 && rvy < (doom->map_width - 80)) && (rvx > 0 && rvy
+				< (doom->map_hight - 80)))
+		{
+			if (doom->data->map[rvy / 40 + 1][rvx / 40] == '1'
+				&& doom->data->map[rvy / 40][rvx / 40 - 1] == '1')
+				return (1);
+		}
+	}
+	else if (ra <= (M_PI + (M_PI / 2)) && ra > M_PI)
+	{
+		if ((rvy > 0 && rvy < (doom->map_width - 80)) && (rvx > 0 && rvy
+				< (doom->map_hight - 80)))
+		{
+			if (doom->data->map[rvy / 40][rvx / 40 + 1] == '1'
+				&& doom->data->map[rvy / 40 + 1][rvx / 40] == '1')
+				return (1);
+		}
+	}
+	else
+		if (hardecode_part2(rvy, rvx, ra, doom) == 1)
+			return (1);
+	return (0);
+}
+
+void	calc_first_hor(double ra, t_ray *hp, t_map *doom)
+{
+	if (ra >= M_PI)
+	{
+		hp->ry = (((int)(doom->cent_y / 40)) * 40) - 0.00001;
+		hp->rx = doom->cent_x - ((doom->cent_y - hp->ry) / (tan(ra) + 0.00001));
+		hp->yo = -40;
+		hp->xo = hp->yo / (tan(ra) + 0.00001);
 	}
 	if (ra < M_PI)
 	{
-		ry = (((int)(cent_y / 40))  *40) + 40;
-		rx = cent_x + (cent_y - ry) / -(tan(ra)+0.00001);
-		yo = 40;
-		xo = yo / (tan(ra));
+		hp->ry = (((int)(doom->cent_y / 40)) * 40) + 40;
+		hp->rx = doom->cent_x + (doom->cent_y - hp->ry) / -(tan(ra) + 0.00001);
+		hp->yo = 40;
+		hp->xo = hp->yo / (tan(ra));
 	}
-	while(1)
+}
+void	hor_line(double *a, double *b, double *c, t_map *doom)
+{
+	t_ray	hp;
+	double	ra;
+
+	ra = *c;
+	calc_first_hor(ra, &hp, doom);
+	while (1)
 	{
-		if (((int)rx > (map_width-80)) || ((int)ry > (map_hight-80)) || ((int)rx < 0) || ((int)ry < 0))
-			break;
-		if (map[(int)(ry / 40)][(int)((rx) / 40)] == '1')
-				break;
-		if (hardcode(ry, rx, ra) == 1)
-				break;
+		if (((int)hp.rx > (doom->map_width - 80)) || ((int)hp.ry
+				> (doom->map_hight - 80)) || ((int)hp.rx < 0)
+			|| ((int)hp.ry < 0))
+			break ;
+		if (doom->data->map[(int)(hp.ry / 40)][(int)((hp.rx) / 40)] == '1')
+			break ;
+		if (hardcode(hp.ry, hp.rx, ra, doom) == 1)
+			break ;
 		else
 		{
-			rx +=xo;
-			ry+=yo;
+			hp.rx += hp.xo;
+			hp.ry += hp.yo;
 		}
 	}
-		*a = ry;
-		*b = rx;
+		*a = hp.ry;
+		*b = hp.rx;
 }
 
-void ver_line(double *a, double* b, double *c)
+void	calc_first_ver(double ra, t_ray *hp, t_map *doom)
 {
-int mp=0,mx = 0, my = 0,dof;
-	double xo=0,yo =0, rvx=0, rvy=0 ;
-	double ra = *c;
-
-		if ((ra >=  M_PI / 2) || ra < (3*M_PI/ 2))
-		{
-			rvx = (((int)(cent_x / 40)) * 40) - 0.000001;
-			rvy = cent_y - (cent_x - rvx) * tan(ra);
-			xo = -40;
-			yo = xo * tan(ra);
-		}
-		if ((ra <  M_PI / 2) || ra >= (3*M_PI/ 2))
-		{
-			rvx = (((int)(cent_x / 40)) * 40) + 40.0001;
-			rvy = cent_y + (cent_x - rvx) * -tan(ra);
-			xo = +40;
-			yo = xo * tan(ra);
-		}
-		while(1)
-		{
-		if (((int)rvx > (map_width-80)) || ((int)rvy > (map_hight-80)) || ((int)rvx < 0) || ((int)rvy < 0))
-			break;
-		if (hardcode(rvy, rvx, ra) == 1)
-				break;
-			if (map[(int)(rvy / 40)][(int)(rvx / 40)] == '1')
-					break;
-			else
-			{
-				rvx +=xo;
-				rvy+=yo;
-			}
-		}
-		*a = rvy;
-		*b = rvx;
+	if ((ra >= M_PI / 2) || ra < (3 * M_PI / 2))
+	{
+		hp->rvx = (((int)(doom->cent_x / 40)) * 40) - 0.000001;
+		hp->rvy = doom->cent_y - (doom->cent_x - hp->rvx) * tan(ra);
+		hp->xo = -40;
+		hp->yo = hp->xo * tan(ra);
+	}
+	if ((ra < M_PI / 2) || ra >= (3 * M_PI / 2))
+	{
+		hp->rvx = (((int)(doom->cent_x / 40)) * 40) + 40.0001;
+		hp->rvy = doom->cent_y + (doom->cent_x - hp->rvx) * -tan(ra);
+		hp->xo = 40;
+		hp->yo = hp->xo * tan(ra);
+	}
 }
 
-void where(int *red, int *green, int*blue, double ra, int c)
+void ver_line(double *a, double *b, double *c, t_map *doom)
 {
-		if ((ra >=  M_PI / 2) || ra < (3*M_PI/ 2))
-		{
-			*red = t.west->pixels[c+0];
-			*green = t.west->pixels[c+1];
-			*blue = t.west->pixels[c+2];
-		}
-		if ((ra <  M_PI / 2) || ra >= (3*M_PI/ 2))
-		{
-			*red = t.east->pixels[c+0];
-			*green = t.east->pixels[c+1];
-			*blue = t.east->pixels[c+2];
-		}
+	t_ray	hp;
+	double	ra;
 
-}
-
-void where1(int *red, int *green, int*blue, double ra, int c)
-{
-		if (ra > M_PI)
-		{
-			*red = t.north->pixels[c+0];
-			*green = t.north->pixels[c+1];
-			*blue = t.north->pixels[c+2];
-		}
+	ra = *c;
+	calc_first_ver(ra, &hp, doom);
+	while (1)
+	{
+		if (((int)hp.rvx > (doom->map_width - 80)) || ((int)hp.rvy
+				> (doom->map_hight - 80)) || ((int)hp.rvx < 0)
+			|| ((int)hp.rvy < 0))
+			break ;
+		if (hardcode(hp.rvy, hp.rvx, ra, doom) == 1)
+			break ;
+		if (doom->data->map[(int)(hp.rvy / 40)][(int)(hp.rvx / 40)] == '1')
+			break ;
 		else
 		{
-			*red = t.south->pixels[c+0];
-			*green = t.south->pixels[c+1];
-			*blue = t.south->pixels[c+2];
+			hp.rvx += hp.xo;
+			hp.rvy += hp.yo;
 		}
-
+	}
+	*a = hp.rvy;
+	*b = hp.rvx;
 }
 
-void projecting1(int i, double ra, double rx)
+void where(t_rgba *rgb, double ra, int c,t_map *doom)
 {
-	double ca = pa - ra;
-	if (ca<0)
-		ca += 2*M_PI;
-	if ( ca > 2 * M_PI)
-		ca -= 2 * M_PI;
-	dst = dst * cos(ca);
-	int lineh = (40*440)/dst;
-	double ty_step = 64 / (double)lineh;
-	double ty_off = 0;
-
-	if (lineh > 440)
+	if ((ra >= M_PI / 2) || ra < (3 * M_PI / 2))
 	{
-		ty_off = (lineh-440)/2.0;
-		lineh =440;
+		rgb->red = doom->t->t[WE]->pixels[c];
+		rgb->green = doom->t->t[WE]->pixels[c + 1];
+		rgb->blue = doom->t->t[WE]->pixels[c + 2];
 	}
-	int lineo = ((220) - (lineh/2));
-	int s = 0;
-	int c,red, green, blue;
-	double ty= ty_off * ty_step;
-
-	double tx =(int)(rx / 0.625) % 64;
-	if (ra > 180)
-		tx = 63 -tx;
-	while (s < lineh)
+	if ((ra < M_PI / 2) || ra >= (3 * M_PI / 2))
 	{
-		c = ((int)ty*64 + (int)tx)*4;
-		where1(&red, &green, &blue, ra, c);
-		mlx_put_pixel(image1, i, s+lineo, ft_pixel(red, green, blue, 155));
+		rgb->red = doom->t->t[EA]->pixels[c];
+		rgb->green = doom->t->t[EA]->pixels[c + 1];
+		rgb->blue = doom->t->t[EA]->pixels[c + 2];
+	}
+}
+
+void where1(t_rgba *rgb, double ra, int c, t_map *doom)
+{
+	if (ra > M_PI)
+	{
+		rgb->red = doom->t->t[NO]->pixels[c];
+		rgb->green = doom->t->t[NO]->pixels[c + 1];
+		rgb->blue = doom->t->t[NO]->pixels[c + 2];
+	}
+	else
+	{
+		rgb->red = doom->t->t[SO]->pixels[c];
+		rgb->green = doom->t->t[SO]->pixels[c + 1];
+		rgb->blue = doom->t->t[SO]->pixels[c + 2];
+	}
+}
+void project1_help(double ra, double ry, t_map *doom, t_project *hb)
+{
+	hb->ca = doom->pa - ra;
+	if (hb->ca < 0)
+		hb->ca += 2 * M_PI;
+	if (hb->ca > 2 * M_PI)
+		hb->ca -= 2 * M_PI;
+	doom->dst = doom->dst * cos(hb->ca);
+	hb->lineh = (40 * 440) / doom->dst;
+	hb->ty_step = 64 / (double)hb->lineh;
+	hb->ty_off = 0;
+	if (hb->lineh > 440)
+	{
+		hb->ty_off = (hb->lineh - 440) / 2.0;
+		hb->lineh = 440;
+	}
+	hb->lineo = ((220) - (hb->lineh / 2));
+	hb->ty = hb->ty_off * hb->ty_step;
+	hb->tx = (int)(ry / 0.625) % 64;
+	if (ra > 90 && ra < 270)
+		hb->tx = 63 - hb->tx;
+}
+void projecting1(int i, double ra, double ry, t_map *doom)
+{
+	t_project	hb;
+	t_rgba		rgb;
+	int			c;
+	int			s;
+
+	s = 0;
+	project1_help(ra, ry, doom, &hb);
+	while (s < hb.lineh)
+	{
+		c = ((int)hb.ty * 64 + (int)hb.tx) * 4;
+		where1(&rgb, ra, c, doom);
+		mlx_put_pixel(doom->image1, i, s + hb.lineo,
+			ft_pixel(rgb.red, rgb.green, rgb.blue, 155));
 		s++;
-		ty += ty_step;
+		hb.ty += hb.ty_step;
 	}
 }
 
-void projecting2(int i, double ra, double ry)
+void project2_help(double ra, double ry, t_map *doom, t_project *hb)
 {
-	double ca = pa - ra;
-	if (ca<0)
-		ca += 2*M_PI;
-	if ( ca > 2 * M_PI)
-		ca -= 2 * M_PI;
-	dst = dst * cos(ca);
-	int lineh = (40*440)/dst;
-	double ty_step = 64 / (double)lineh;
-	double ty_off = 0;
-	if (lineh > 440)
+	hb->ca = doom->pa - ra;
+	if (hb->ca < 0)
+		hb->ca += 2 * M_PI;
+	if (hb->ca > 2 * M_PI)
+		hb->ca -= 2 * M_PI;
+	doom->dst = doom->dst * cos(hb->ca);
+	hb->lineh = (40 * 440) / doom->dst;
+	hb->ty_step = 64 / (double)hb->lineh;
+	hb->ty_off = 0;
+	if (hb->lineh > 440)
 	{
-		ty_off = (lineh-440)/2.0;
-		lineh =440;
+		hb->ty_off = (hb->lineh - 440) / 2.0;
+		hb->lineh = 440;
 	}
-	int lineo = ((220) - (lineh/2));
-	int s = 0;
-	int c,red, green, blue, opacity;
-	double ty= ty_off*ty_step;
-	double tx =(int)(ry / 0.625) % 64;
-	if ( ra > 90 && ra < 270)
-		tx = 63-tx;
-	while (s < lineh)
+	hb->lineo = ((220) - (hb->lineh / 2));
+	hb->ty = hb->ty_off * hb->ty_step;
+	hb->tx = (int)(ry / 0.625) % 64;
+	if (ra > 90 && ra < 270)
+		hb->tx = 63 - hb->tx;
+}
+
+void projecting2(int i, double ra, double ry, t_map *doom)
+{
+	t_project	hb;
+	t_rgba		rgb;
+	int			c;
+	int			s;
+
+	s = 0;
+	project2_help(ra, ry, doom, &hb);
+	while (s < hb.lineh)
 	{
-		c = ((int)ty*64 + (int)tx)*4;
-		where(&red, &green, &blue, ra, c);
-		mlx_put_pixel(image1, i, s+lineo, ft_pixel(red, green, blue, 255));
+		c = ((int)hb.ty * 64 + (int)hb.tx) * 4;
+		where(&rgb, ra, c, doom);
+		mlx_put_pixel(doom->image1, i, s + hb.lineo,
+			ft_pixel(rgb.red, rgb.green, rgb.blue, 255));
 		s++;
-		ty += ty_step;
+		hb.ty += hb.ty_step;
 	}
 }
 
-void drawray()
+void calculating(t_ray *r, t_map *doom)
 {
-	double rx=10000000,ry=100000,rvx=10000000,rvy =10000000; int i = 0 ;
-	double ra;
-	ra = pa - DR *30;
-	if(ra < 0)
-		ra += 2 * M_PI;
-	if (ra > 2 * M_PI)
-		ra -= 2 * M_PI;
-	while ( i < 640)
+	hor_line(&r->ry, &r->rx, &r->ra, doom);
+	ver_line(&r->rvy, &r->rvx, &r->ra, doom);
+	r->x1 = sqrt(pow((r->rx - doom->cent_x), 2) + pow((r->ry - doom->cent_y),
+				2));
+	r->x2 = sqrt(pow((r->rvx - doom->cent_x), 2) + pow((r->rvy - doom->cent_y),
+				2));
+}
+
+void project(t_ray	*r, t_map *doom, int i)
+{
+	if (r->x2 > r->x1)
 	{
-	hor_line(&ry, &rx, &ra);
-	ver_line(&rvy, &rvx, &ra);
-	double x1 = 0;
-	double x2 = 0;
-	x1 = sqrt(pow((rx - cent_x), 2) + pow((ry - cent_y), 2));
-	x2 = sqrt(pow((rvx - cent_x), 2) + pow((rvy - cent_y), 2));
-	if (x2 > x1)
-	{
-		dst = x1;
-		projecting1(i, ra, rx);
-		rays[i][0] = rx;
-		rays[i][1] = ry;
+		doom->dst = r->x1;
+		projecting1(i, r->ra, r->rx, doom);
+		doom->rays[i][0] = r->rx;
+		doom->rays[i][1] = r->ry;
 	}
-	else if (x2 < x1)
+	else if (r->x2 < r->x1)
 	{
-		dst = x2;
-		projecting2(i, ra, rvy);
-		rays[i][0] = rvx;
-		rays[i][1] = rvy;
+		doom->dst = r->x2;
+		projecting2(i, r->ra, r->rvy, doom);
+		doom->rays[i][0] = r->rvx;
+		doom->rays[i][1] = r->rvy;
 	}
+}
+void drawray(t_map *doom)
+{
+	t_ray	r;
+	int		i;
+
+	i = 0;
+	r.ra = doom->pa - doom->dr * 30;
+	if (r.ra < 0)
+		r.ra += 2 * M_PI;
+	if (r.ra > 2 * M_PI)
+		r.ra -= 2 * M_PI;
+	while (i < 640)
+	{
+		calculating(&r, doom);
+		project(&r, doom, i);
 	i++;
-	 ra += (DR*60)/640;
-		if(ra < 0)
-			ra += 2 * M_PI;
-		if (ra > 2 * M_PI)
-			ra -= 2 * M_PI;
+	r.ra += (doom->dr * 60) / 640;
+		if (r.ra < 0)
+			r.ra += 2 * M_PI;
+		if (r.ra > 2 * M_PI)
+			r.ra -= 2 * M_PI;
 	}
 }
-void ft_randomize(void *parm)
+void ft_randering(void *parm)
 {
-	my_clear();
-	drawray();
-	rand_map();
-	player();
-	drawline(cent_x, cent_y, (cent_x + px), (cent_y + py));
+	t_map	*doom;
+
+	doom = (t_map *)parm;
+	my_clear(doom);
+	drawray(doom);
 }
 
+void	key_w(t_map *doom)
+{
+	double	xtemp;
+	double	ytemp;
+
+	xtemp = 0;
+	ytemp = 0;
+	xtemp = doom->cent_x + cos(doom->pa) * 5;
+	ytemp = doom->cent_y + sin(doom->pa) * 5;
+	if (doom->data->map[(int)(ytemp / 40)][(int)xtemp / 40] != '1')
+	{
+		if ((int)xtemp / 40 != (int)doom->cent_x / 40
+			&& (int)ytemp / 40 != (int)doom->cent_y / 40
+			&& doom->data->map[(int)ytemp / 40][(int)doom->cent_x / 40] == '1'
+			&& doom->data->map[(int)doom->cent_y / 40][(int)xtemp / 40] == '1' )
+			return ;
+		doom->cent_x = xtemp;
+		doom->cent_y = ytemp;
+	}
+}
+
+void	key_down(t_map *doom)
+{
+	double	xtemp;
+	double	ytemp;
+
+	xtemp = 0;
+	ytemp = 0;
+	xtemp = doom->cent_x - cos(doom->pa) * 5;
+	ytemp = doom->cent_y - sin(doom->pa) * 5;
+	if (doom->data->map[(int)ytemp / 40][(int)xtemp / 40] != '1')
+	{
+		if ((int)xtemp / 40 != (int)doom->cent_x / 40 && (int)ytemp / 40
+			!= (int)doom->cent_y / 40 && doom->data->map[(int)ytemp / 40][(int)
+			doom->cent_x / 40] == '1' && doom->data->map[(int)doom->cent_y /
+			40][(int)xtemp / 40] == '1')
+			return ;
+		doom->cent_x = xtemp;
+		doom->cent_y = ytemp;
+	}
+}
+
+void	key_right(t_map *doom)
+{
+	double	xtemp;
+	double	ytemp;
+
+	xtemp = 0;
+	ytemp = 0;
+	ytemp = doom->cent_y + cos(-doom->pa) * 5;
+	xtemp = doom->cent_x + sin(-doom->pa) * 5;
+	if (doom->data->map[(int)ytemp / 40][(int)xtemp / 40] != '1')
+	{
+		if ((int)xtemp / 40 != (int)doom->cent_x / 40 && (int)ytemp / 40
+			!= (int)doom->cent_y / 40 && doom->data->map[(int)ytemp / 40][(int)
+			doom->cent_x / 40] == '1' && doom->data->map[(int)doom->cent_y /
+			40][(int)xtemp / 40] == '1')
+			return ;
+		doom->cent_x = xtemp;
+		doom->cent_y = ytemp;
+	}
+}
+
+void	key_left(t_map *doom)
+{
+	double	xtemp;
+	double	ytemp;
+
+	xtemp = 0;
+	ytemp = 0;
+	ytemp = doom->cent_y - cos(-doom->pa) * 5;
+	xtemp = doom->cent_x - sin(-doom->pa) * 5;
+	if (doom->data->map[(int)ytemp / 40][(int)xtemp / 40] != '1')
+	{
+		if ((int)xtemp / 40 != (int)doom->cent_x / 40 && (int)ytemp / 40
+			!= (int)doom->cent_y / 40 && doom->data->map[(int)ytemp / 40][(int)
+			doom->cent_x / 40] == '1' && doom->data->map[(int)doom->cent_y /
+			40][(int)xtemp / 40] == '1')
+			return ;
+		doom->cent_x = xtemp;
+		doom->cent_y = ytemp;
+	}
+}
+
+void	turn_right(t_map *doom)
+{
+	doom->pa -= 0.05;
+	if (doom->pa <= 0)
+		doom->pa += 2 * M_PI;
+	doom->px = cos(doom->pa) * 40;
+	doom->py = sin(doom->pa) * 40;
+}
+void	turn_left(t_map *doom)
+{
+	doom->pa += 0.05;
+	if (doom->pa >= 2 * M_PI)
+		doom->pa -= 2 * M_PI;
+	doom->px = cos(doom->pa) * 40;
+	doom->py = sin(doom->pa) * 40;
+}
 void ft_hook(mlx_key_data_t keydata, void* param)
 {
-	double xtemp = 0, ytemp = 0;
+	t_map	*doom;
+
+	doom = (t_map *)param;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		exit(0);
-	if (keydata.key == MLX_KEY_UP)
-	{
-		xtemp =cent_x + cos(pa)*5;
-		ytemp = cent_y + sin(pa)*5;
-		if (map[(int)(ytemp /40)][(int)xtemp / 40] != '1' )
-		{
-			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-				return;
-			cent_x =xtemp;
-			cent_y =ytemp;
-		}
-
-	}
-	if (keydata.key == MLX_KEY_DOWN)
-	{
-		xtemp =cent_x - cos(pa)*5;
-		ytemp = cent_y - sin(pa)*5;
-		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-		{
-			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-					return;
-				cent_x =xtemp;
-				cent_y =ytemp;
-		}
-	}
-	if (keydata.key == MLX_KEY_RIGHT)
-	{
-		ytemp =cent_y + cos(-pa)*5;
-		xtemp =cent_x + sin(-pa)*5;
-		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-		{
-			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-				return;
-			cent_x =xtemp;
-			cent_y =ytemp;
-		}
-	}
-	if (keydata.key == MLX_KEY_LEFT)
-	{
-		ytemp = cent_y - cos(-pa)*5;
-		xtemp = cent_x - sin(-pa)*5;
-		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-		{
-			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-				return;
-			cent_x = xtemp;
-			cent_y = ytemp;
-
-		}
-	}
-	if (keydata.key == MLX_KEY_A)
-	{
-		pa -= 0.05;
-		if (pa <= 0)
-			pa+=2*M_PI;
-		px = cos(pa) * 40;
-		py = sin(pa) * 40;
-	}
+	if (keydata.key == MLX_KEY_W)
+		key_w(doom);
+	if (keydata.key == MLX_KEY_S)
+		key_down(doom);
 	if (keydata.key == MLX_KEY_D)
-	{
-		pa += 0.05;
-		if (pa >= 2 * M_PI)
-			pa-=2*M_PI;
-		px = cos(pa) * 40;
-		py = sin(pa) * 40;
-	}
+		key_right(doom);
+	if (keydata.key == MLX_KEY_A)
+		key_left(doom);
+	if (keydata.key == MLX_KEY_LEFT)
+		turn_right(doom);
+	if (keydata.key == MLX_KEY_RIGHT)
+		turn_left(doom);
 }
 
 // -----------------------------------------------------------------------------
+void	assigning(t_map *doom)
+{
+	doom->cent_x = (doom->pinfo->pos_x * 40) + 40;
+	doom->cent_y = (doom->pinfo->pos_y * 40) + 40;
+	doom->map_hight = (40 * doom->doom_hight) + 40;
+	if (doom->map_hight < 440)
+		doom->map_hight = 440;
+	doom->map_width = (40 * doom->doom_width) + 40;
+	if (doom->map_width < 440)
+		doom->map_width = 440;
+	doom->map_s = 0.2;
+	doom->dr = M_PI / 180;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'N')
+		doom->pa = M_PI + M_PI_2;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'S')
+		doom->pa = M_PI_2;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'W')
+		doom->pa = M_PI;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'E')
+		doom->pa = 2 * M_PI;
+	doom->px = cos(doom->pa) * 40;
+	doom->py = sin(doom->pa) * 40;
+}
 
 int raycasting(t_map *doom)
 {
-	// doom->t->t[NO]->pixels
-	pa = M_PI + M_PI_2;
-	px = cos(pa) * 40;
-	py = sin(pa) * 40;
-	map_hight = (40 * doom->map_hight) + 40;
-	map_width = (40 * doom->doom_width) + 40;
-	mlx = mlx_init(640, 440, "MLX42", false);
-	image1 = mlx_new_image(mlx, map_width, map_hight);
-	mlx_image_to_window(mlx, image1, 0, 0);
-	mlx_key_hook(mlx,&ft_hook, 0);
-	mlx_loop_hook(mlx, ft_randomize, &doom);
-
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	assigning(doom);
+	doom->image1 = mlx_new_image(doom->mlx, doom->map_width,
+			doom->map_hight);
+	mlx_image_to_window(doom->mlx, doom->image1, 0, 0);
+	mlx_key_hook(doom->mlx, &ft_hook, doom);
+	mlx_loop_hook(doom->mlx, ft_randering, doom);
+	mlx_loop(doom->mlx);
+	mlx_terminate(doom->mlx);
 	return (EXIT_SUCCESS);
 }

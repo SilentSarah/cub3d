@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:43:53 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/19 17:34:00 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:19:24 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INCLUDES/cub3d.h"
 
-#include <stdio.h>
 int	main(int ac, char **av)
 {
 	t_map	*mlx;
@@ -31,7 +30,8 @@ int	main(int ac, char **av)
 			ft_malloc(-1);
 			exit (1);
 		}
-		//raycasting(mlx);
+		load_textures(mlx);
+		raycasting(mlx);
 	}
 
 	return (0);

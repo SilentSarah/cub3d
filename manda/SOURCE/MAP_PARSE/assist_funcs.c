@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assist_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:46:45 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/19 15:01:41 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:21:09 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*add_spaces(char *map_el, int b_len)
 int	find_len(char **map, t_map *mlx)
 {
 	int	i;
-	int b_len;
+	size_t b_len;
 
 	i = -1;
 	b_len = 0;

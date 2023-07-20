@@ -5,13 +5,12 @@ FLAGS = #-Wall -Werror -Wextra -fsanitize=address
 
 #Source files
 SOURCE_PARSE = $(addprefix SOURCE/MAP_PARSE/, assist_funcs.c map_parser.c map_walls_check.c map_data_parser.c map_loader.c map_loader_extra.c map_loader_support.c)
-SOURCE_ASSIST = $(addprefix SOURCE/, main.c string_manipulation.c mlx_functions.c mlx_key_hook.c )
+SOURCE_ASSIST = $(addprefix SOURCE/, main.c string_manipulation.c mlx_functions.c mlx_key_hook.c cub.c )
 SOURCE_RAYCAST = $(addprefix SOURCE/RAYCAST/,)
 
 #Object Holder
-OBJ_HOLDER = OBJ/
 OBJ_HOLD = $(addprefix OBJ/, assist_funcs.o map_parser.o map_walls_check.o map_data_parser.o map_loader.o map_loader_extra.o \
-							 map_loader_support.o main.o string_manipulation.o mlx_functions.o mlx_key_hook.o )
+							 map_loader_support.o main.o string_manipulation.o mlx_functions.o mlx_key_hook.o cub.o )
 
 # Libraries
 MLX42 = libmlx42.a
@@ -46,33 +45,32 @@ $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@mv ./ft_printf/libftprintf.a ./
 	@mv ./ft_malloc/ft_malloc.a ./
 
+
 $(NAME): $(OBJ_HOLD) $(SOURCE_PARSE) $(SOURCE_ASSIST) $(SOURCE_RAYCAST)
 	@tput el
 	@echo "Making executable: |$@|"
 	@$(CC) $(FLAGS) $(OBJ_HOLD) $(LIBFT) $(PRINTF) $(MALLOC) $(MLX42) $(GLFW) $(MLX_DEP) -o $@
 
-$(OBJ_HOLDER):
-	@mkdir OBJ
 
-./OBJ/%.o: SOURCE/%.c $(OBJ_HOLDER)
+./OBJ/%.o: SOURCE/%.c
 	@tput cuu1
 	@echo "Creating Object file: |$@|"
 	@$(CC) $(FLAGS) $< -c -o $@
 
 
-./OBJ/%.o: SOURCE/MAP_PARSE/%.c $(OBJ_HOLDER)
+./OBJ/%.o: SOURCE/MAP_PARSE/%.c
 	@tput cuu1
 	@echo "Creating Object file: |$@|"
 	@$(CC) $(FLAGS) $< -c -o $@
 
-./OBJ/%.o: SOURCE/RAYCAST/%.c $(OBJ_HOLDER)
+./OBJ/%.o: SOURCE/RAYCAST/%.c
 	@tput cuu1
 	@echo "Creating Object file: |$@|"
 	@$(CC) $(FLAGS) $< -c -o $@
 
 
 clean:
-	@rm -rf $(OBJ_HOLDER)
+	@rm -rf $(OBJ_HOLD)
 	@make clean -C ./libft
 	@make clean -C ./ft_printf
 	@make clean -C ./ft_malloc
