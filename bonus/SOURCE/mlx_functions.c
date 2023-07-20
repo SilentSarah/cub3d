@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/19 18:18:36 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/20 15:45:06 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	initialize_mlx(t_map **mlx)
 	}
 	(*mlx)->data->cnf = NULL;
 	(*mlx)->data->map = NULL;
-	ft_bzero((*mlx), sizeof(t_map));
 }
 
 int	load_textures(t_map *mlx)

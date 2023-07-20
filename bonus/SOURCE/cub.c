@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/20 13:18:41 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/20 15:58:24 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,15 +206,15 @@ void	my_clear(t_map *doom)
 
 	r = 0;
 	f = 0;
-	while (f < doom->map_width)
+	while (f < 640)
 	{
 		r = 0;
-		while (r < doom->map_hight / 2)
+		while (r < 220)
 		{
 			mlx_put_pixel(doom->image1, f, r, ft_pixel(0, 255, 255, 100));
 			r++;
 		}
-		while (r < doom->map_hight)
+		while (r < 440)
 		{
 			mlx_put_pixel(doom->image1, f, r, ft_pixel(255, 229, 204, 255));
 			r++;
@@ -366,7 +366,7 @@ void where(t_rgba *rgb, double ra, int c,t_map *doom)
 		if ((ra >=  M_PI / 2) || ra < (3*M_PI/ 2))
 		{
 			rgb->red = doom->t->t[WE]->pixels[c + 0];
-			rgb->red = doom->t->t[WE]->pixels[c+1];
+			rgb->green = doom->t->t[WE]->pixels[c+1];
 			rgb->blue = doom->t->t[WE]->pixels[c+2];
 		}
 		if ((ra <  M_PI / 2) || ra >= (3*M_PI/ 2))
@@ -389,7 +389,7 @@ void where1(t_rgba *rgb, double ra, int c, t_map *doom)
 		{
 			rgb->red = doom->t->t[SO]->pixels[c+0];
 			rgb->green = doom->t->t[SO]->pixels[c+1];
-		rgb->blue = doom->t->t[SO]->pixels[c+2];
+			rgb->blue = doom->t->t[SO]->pixels[c+2];
 		}
 }
 void project1_help(double ra, double ry, t_map *doom, t_project *hb)
@@ -436,8 +436,8 @@ void projecting1(int i, double ra, double ry, t_map *doom)
 void project2_help(double ra, double ry, t_map *doom, t_project *hb)
 {
 	hb->ca = doom->pa - ra;
-	if (hb->ca<0)
-		hb->ca += 2*M_PI;
+	if (hb->ca < 0)
+		hb->ca += 2 * M_PI;
 	if (hb->ca > 2 * M_PI)
 		hb->ca -= 2 * M_PI;
 	doom->dst = doom->dst * cos(hb->ca);
@@ -531,9 +531,9 @@ void ft_randering(void *parm)
 	doom = (t_map *)parm;
 	my_clear(doom);
 	drawray(doom);
-	// rand_map(doom);
-	// player(doom);
-	// draw_ray_map(doom);
+	rand_map(doom);
+	player(doom);
+	draw_ray_map(doom);
 
 }
 
@@ -654,80 +654,6 @@ void ft_hook(mlx_key_data_t keydata, void* param)
 		turn_left(doom);
 }
 
-// void ft_hook(mlx_key_data_t keydata, void* param)
-// {
-// 	t_map *doom = (t_map *)param;
-// 	double xtemp;
-// 	double ytemp;
-// 	xtemp = 0;
-// 	ytemp = 0;
-// 	if (keydata.key == MLX_KEY_ESCAPE)
-// 		exit(0);
-// 	if (keydata.key == MLX_KEY_UP)
-// 	{
-// 		xtemp =cent_x + cos(pa)*5;
-// 		ytemp = cent_y + sin(pa)*5;
-// 		if (map[(int)(ytemp /40)][(int)xtemp / 40] != '1' )
-// 		{
-// 			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-// 				return;
-// 			cent_x =xtemp;
-// 			cent_y =ytemp;
-// 		}
-// 	}
-// 	if (keydata.key == MLX_KEY_DOWN)
-// 	{
-// 		xtemp =cent_x - cos(pa)*5;
-// 		ytemp = cent_y - sin(pa)*5;
-// 		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-// 		{
-// 			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-// 					return;
-// 				cent_x =xtemp;
-// 				cent_y =ytemp;
-// 		}
-// 	}
-// 	if (keydata.key == MLX_KEY_RIGHT)
-// 	{
-// 		ytemp =cent_y + cos(-pa)*5;
-// 		xtemp =cent_x + sin(-pa)*5;
-// 		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-// 		{
-// 			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-// 				return;
-// 			cent_x =xtemp;
-// 			cent_y =ytemp;
-// 		}
-// 	}
-// 	if (keydata.key == MLX_KEY_LEFT)
-// 	{
-// 		ytemp = cent_y - cos(-pa)*5;
-// 		xtemp = cent_x - sin(-pa)*5;
-// 		if (map[(int)ytemp /40][(int)xtemp / 40] != '1')
-// 		{
-// 			if((int)xtemp / 40!=(int)cent_x / 40 && (int)ytemp / 40!=(int)cent_y / 40 && map[(int)ytemp /40][(int)cent_x / 40] == '1'&& map[(int)cent_y /40][(int)xtemp / 40] == '1' )
-// 				return;
-// 			cent_x = xtemp;
-// 			cent_y = ytemp;
-// 		}
-// 	}
-// 	// if (keydata.key == MLX_KEY_A)
-// 	// {
-// 	// 	pa -= 0.05;
-// 	// 	if (pa <= 0)
-// 	// 		pa+=2*M_PI;
-// 	// 	px = cos(pa) * 40;
-// 	// 	py = sin(pa) * 40;
-// 	// }
-// 	// if (keydata.key == MLX_KEY_D)
-// 	// {
-// 	// 	pa += 0.05;
-// 	// 	if (pa >= 2 * M_PI)
-// 	// 		pa-=2*M_PI;
-// 	// 	px = cos(pa) * 40;
-// 	// 	py = sin(pa) * 40;
-// 	// }
-// }
 void mous_hook(double xdelta, double ydelta, void* param)
 {
 	t_map	*doom;
@@ -748,22 +674,25 @@ void	assigning(t_map *doom)
 	doom->cent_x = (doom->pinfo->pos_x * 40) + 40;
 	doom->cent_y = (doom->pinfo->pos_y * 40) + 40;
 	doom->map_hight = (40 * doom->doom_hight) + 40;
+	if (doom->map_hight < 440)
+		doom->map_hight = 440;
 	doom->map_width = (40 * doom->doom_width) + 40;
+	if (doom->map_width < 440)
+		doom->map_width = 440;
 	doom->map_s = 0.2;
 	doom->dr = M_PI / 180;
-	doom->pa = M_PI;
-	// if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-	// 	'N')
-	// 	doom->pa = M_PI + M_PI_2;
-	// if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-	// 	'S')
-	// 	doom->pa = M_PI_2;
-	// if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-	// 	'W')
-	// 	doom->pa = M_PI;
-	// if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-	// 	'E')
-	// 	doom->pa = 2 * M_PI;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'N')
+		doom->pa = M_PI + M_PI_2;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'S')
+		doom->pa = M_PI_2;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'W')
+		doom->pa = M_PI;
+	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
+		'E')
+		doom->pa = 2 * M_PI;
 	doom->px = cos(doom->pa) * 40;
 	doom->py = sin(doom->pa) * 40;
 }
@@ -782,52 +711,3 @@ int raycasting(t_map *doom)
 	return (EXIT_SUCCESS);
 }
 
-
-
-
-
-
-
-
-
-
-// void projecting1(int i, double ra, double rx)
-// {
-// 	double ca;
-// 	double ty_step;
-// 	double ty_off;
-// 	int lineh;
-
-
-// 	ca= pa - ra;
-// 	if (ca<0)
-// 		ca += 2*M_PI;
-// 	if ( ca > 2 * M_PI)
-// 		ca -= 2 * M_PI;
-// 	dst = dst * cos(ca);
-// 	lineh = (40*440)/dst;
-// 	ty_step = 64 / (double)lineh;
-// 	ty_off = 0;
-
-// 	if (lineh > 440)
-// 	{
-// 		ty_off = (lineh-440)/2.0;
-// 		lineh =440;
-// 	}
-// 	int lineo = ((220) - (lineh/2));
-// 	int s = 0;
-// 	int c,red, green, blue;
-// 	double ty= ty_off * ty_step;
-
-// 	double tx =(int)(rx / 0.625) % 64;
-// 	if (ra > 180)
-// 		tx = 63 -tx;
-// 	while (s < lineh)
-// 	{
-// 		c = ((int)ty*64 + (int)tx)*4;
-// 		where1(&red, &green, &blue, ra, c);
-// 		mlx_put_pixel(image1, i, s+lineo, ft_pixel(red, green, blue, 155));
-// 		s++;
-// 		ty += ty_step;
-// 	}
-// }
