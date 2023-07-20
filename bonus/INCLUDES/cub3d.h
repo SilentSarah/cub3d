@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/20 12:05:59 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:33:08 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ typedef struct s_project{
 }	t_project;
 
 typedef struct s_rgba{
-	int blue;
-	int green;
-	int red;
+	int	blue;
+	int	green;
+	int	red;
 }t_rgba;
 
 typedef struct s_bresenham{
@@ -127,7 +127,19 @@ typedef struct s_bresenham{
 	int	y0;
 	int	x1;
 	int	y1;
-}t_bresnham ;
+
+}t_bresnham;
+
+typedef struct s_bresenham_help{
+	int	dx;
+    int	dy;
+    int	sx;
+	int	sy;
+    int	err;
+    int	e2;
+
+}t_bresnham_h;
+
 bool	extract_map_data(t_map *mlx, t_cnf *data);
 bool	test_map_walls(t_cnf *data, t_pinfo *pinfo);
 bool	parse_map(t_map *mlx, char **map);
