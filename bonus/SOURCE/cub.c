@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/20 17:03:37 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:43:37 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -644,9 +644,9 @@ void ft_hook(mlx_key_data_t keydata, void* param)
 		key_right(doom);
 	if (keydata.key == MLX_KEY_A)
 		key_left(doom);
-	if (keydata.key == MLX_KEY_LEFT)
-		turn_right(doom);
 	if (keydata.key == MLX_KEY_RIGHT)
+		turn_right(doom);
+	if (keydata.key == MLX_KEY_LEFT)
 		turn_left(doom);
 }
 
@@ -656,9 +656,9 @@ void mous_hook(double xdelta, double ydelta, void* param)
 
 	doom = (t_map *)param;
 	if (xdelta < 100)
-		turn_right(doom);
-	if (xdelta > 100)
 		turn_left(doom);
+	if (xdelta > 100)
+		turn_right(doom);
 	if (xdelta != 100)
 		mlx_set_mouse_pos(doom->mlx, 100, 100);
 	if (ydelta != 100)
