@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/21 12:43:35 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:06:37 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdbool.h>
-#include <stdio.h>
 # include <math.h>
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
