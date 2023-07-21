@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assist_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:46:45 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/20 20:15:23 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 14:27:32 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*add_spaces(char *map_el, int b_len)
 	res = ft_malloc(b_len + 1);
 	if (!res)
 		return (NULL);
-	i = ft_strlcpy(res, map_el, b_len);
+	i = ft_strlcpy(res, map_el, b_len + 1);
 	while (i < b_len)
 		res[i++] = ' ';
 	res[i] = '\0';

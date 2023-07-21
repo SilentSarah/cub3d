@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_raycaster.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/20 18:21:06 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 14:35:36 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ void	assigning(t_map *doom)
 {
 	doom->cent_x = (doom->pinfo->pos_x * 40) + 40;
 	doom->cent_y = (doom->pinfo->pos_y * 40) + 40;
-	doom->map_hight = (40 * doom->doom_hight) + 40;
+	doom->map_hight = (40 * (doom->doom_hight));
 	if (doom->map_hight < 440)
 		doom->map_hight = 440;
-	doom->map_width = (40 * doom->doom_width) + 40;
-	if (doom->map_width < 440)
-		doom->map_width = 440;
+	doom->map_width = (40 * (doom->doom_width));
+	if (doom->map_width < 640)
+		doom->map_width = 640;
 	doom->map_s = 0.2;
 	doom->dr = M_PI / 180;
 	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
@@ -121,8 +121,8 @@ void	drawray(t_map *doom)
 int	raycasting(t_map *doom)
 {
 	assigning(doom);
-	doom->image1 = mlx_new_image(doom->mlx, doom->map_width,
-			doom->map_hight);
+	doom->image1 = mlx_new_image(doom->mlx, doom->map_width + 40,
+			doom->map_hight + 40);
 	mlx_image_to_window(doom->mlx, doom->image1, 0, 0);
 	mlx_key_hook(doom->mlx, &ft_hook, doom);
 	mlx_loop_hook(doom->mlx, ft_randering, doom);

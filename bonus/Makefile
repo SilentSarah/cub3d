@@ -12,6 +12,8 @@ SOURCE_RAYCAST = $(addprefix SOURCE/RAYCAST/,)
 OBJ_HOLD = $(addprefix OBJ/, assist_funcs.o map_parser.o map_walls_check.o map_data_parser.o map_loader.o map_loader_extra.o \
 							 map_loader_support.o main.o string_manipulation.o mlx_functions.o mlx_key_hook.o cub.o )
 
+OBJ_HOLDER = OBJ
+
 # Libraries
 MLX42 = libmlx42.a
 LIBFT = libft.a
@@ -46,10 +48,13 @@ $(LIBFT) $(PRINTF) $(MALLOC): $(LIBFT_SRC) $(PRINTF_SRC) $(MALLOC_SRC)
 	@mv ./ft_malloc/ft_malloc.a ./
 
 
-$(NAME): $(OBJ_HOLD) $(SOURCE_PARSE) $(SOURCE_ASSIST) $(SOURCE_RAYCAST)
+$(NAME): $(OBJ_HOLDER) $(OBJ_HOLD) $(SOURCE_PARSE) $(SOURCE_ASSIST) $(SOURCE_RAYCAST)
 	@tput el
 	@echo "Making executable: |$@|"
 	@$(CC) $(FLAGS) $(OBJ_HOLD) $(LIBFT) $(PRINTF) $(MALLOC) $(MLX42) $(GLFW) $(MLX_DEP) -o $@
+
+$(OBJ_HOLDER):
+	@mkdir $(OBJ_HOLDER)
 
 
 ./OBJ/%.o: SOURCE/%.c
@@ -70,7 +75,7 @@ $(NAME): $(OBJ_HOLD) $(SOURCE_PARSE) $(SOURCE_ASSIST) $(SOURCE_RAYCAST)
 
 
 clean:
-	@rm -rf $(OBJ_HOLD)
+	@rm -rf $(OBJ_HOLDER)
 	@make clean -C ./libft
 	@make clean -C ./ft_printf
 	@make clean -C ./ft_malloc

@@ -6,7 +6,7 @@
 /*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/20 16:43:37 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/21 14:37:31 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,8 +288,8 @@ void	hor_line(double *a, double *b, double *c, t_map *doom)
 	calc_first_hor(ra, &hp, doom);
 	while (1)
 	{
-		if (((int)hp.rx > (doom->map_width - 80)) || ((int)hp.ry
-				> (doom->map_hight - 80)) || ((int)hp.rx < 0)
+		if (((int)hp.rx > (doom->map_width)) || ((int)hp.ry
+				> (doom->map_hight)) || ((int)hp.rx < 0)
 			|| ((int)hp.ry < 0))
 			break ;
 		if (doom->data->map[(int)(hp.ry / 40)][(int)((hp.rx) / 40)] == '1')
@@ -333,8 +333,8 @@ void ver_line(double *a, double *b, double *c, t_map *doom)
 	calc_first_ver(ra, &hp, doom);
 	while (1)
 	{
-		if (((int)hp.rvx > (doom->map_width - 80)) || ((int)hp.rvy
-				> (doom->map_hight - 80)) || ((int)hp.rvx < 0)
+		if (((int)hp.rvx > (doom->map_width)) || ((int)hp.rvy
+				> (doom->map_hight)) || ((int)hp.rvx < 0)
 			|| ((int)hp.rvy < 0))
 			break ;
 		if (hardcode(hp.rvy, hp.rvx, ra, doom) == 1)
@@ -615,7 +615,7 @@ void	key_left(t_map *doom)
 
 void	turn_right(t_map *doom)
 {
-	doom->pa -= 0.05;
+	doom->pa += 0.05;
 	if (doom->pa <= 0)
 		doom->pa += 2 * M_PI;
 	doom->px = cos(doom->pa) * 40;
@@ -623,7 +623,7 @@ void	turn_right(t_map *doom)
 }
 void	turn_left(t_map *doom)
 {
-	doom->pa += 0.05;
+	doom->pa -= 0.05;
 	if (doom->pa >= 2 * M_PI)
 		doom->pa -= 2 * M_PI;
 	doom->px = cos(doom->pa) * 40;
@@ -669,12 +669,12 @@ void	assigning(t_map *doom)
 {
 	doom->cent_x = (doom->pinfo->pos_x * 40) + 40;
 	doom->cent_y = (doom->pinfo->pos_y * 40) + 40;
-	doom->map_hight = (40 * doom->doom_hight) + 40;
+	doom->map_hight = (40 * doom->doom_hight);
 	if (doom->map_hight < 440)
 		doom->map_hight = 440;
-	doom->map_width = (40 * doom->doom_width) + 40;
-	if (doom->map_width < 440)
-		doom->map_width = 440;
+	doom->map_width = (40 * doom->doom_width);
+	if (doom->map_width < 640)
+		doom->map_width = 640;
 	doom->map_s = 0.2;
 	doom->dr = M_PI / 180;
 	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
@@ -696,8 +696,8 @@ void	assigning(t_map *doom)
 int raycasting(t_map *doom)
 {
 	assigning(doom);
-	doom->image1 = mlx_new_image(doom->mlx, doom->map_width,
-			doom->map_hight);
+	doom->image1 = mlx_new_image(doom->mlx, doom->map_width + 40,
+			doom->map_hight + 40);
 	mlx_set_cursor_mode(doom->mlx, MLX_MOUSE_HIDDEN);
 	mlx_image_to_window(doom->mlx, doom->image1, 0, 0);
 	mlx_cursor_hook(doom->mlx, mous_hook, doom);

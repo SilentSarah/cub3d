@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_part2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 18:14:50 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/20 18:21:13 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 14:05:56 by hassimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	hor_line(double *a, double *b, double *c, t_map *doom)
 	calc_first_hor(ra, &hp, doom);
 	while (1)
 	{
-		if (((int)hp.rx > (doom->map_width - 80)) || ((int)hp.ry
-				> (doom->map_hight - 80)) || ((int)hp.rx < 0)
+		if (((int)hp.rx > (doom->map_width - 40)) || ((int)hp.ry
+				> (doom->map_hight - 40)) || ((int)hp.rx < 0)
 			|| ((int)hp.ry < 0))
 			break ;
 		if (doom->data->map[(int)(hp.ry / 40)][(int)((hp.rx) / 40)] == '1')
@@ -48,8 +48,8 @@ void	ver_line(double *a, double *b, double *c, t_map *doom)
 	calc_first_ver(ra, &hp, doom);
 	while (1)
 	{
-		if (((int)hp.rvx > (doom->map_width - 80)) || ((int)hp.rvy
-				> (doom->map_hight - 80)) || ((int)hp.rvx < 0)
+		if (((int)hp.rvx > (doom->map_width - 40)) || ((int)hp.rvy
+				> (doom->map_hight - 40)) || ((int)hp.rvx < 0)
 			|| ((int)hp.rvy < 0))
 			break ;
 		if (hardcode(hp.rvy, hp.rvx, ra, doom) == 1)
