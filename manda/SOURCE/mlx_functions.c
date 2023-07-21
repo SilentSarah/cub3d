@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/21 09:34:59 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 11:11:00 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	loading_handler(t_map *mlx, char *dir)
 		ft_malloc(-1);
 		exit (1);
 	}
-	print_map_cnf(mlx->data);
 	mlx->data->map = add_padding(mlx->data->map, mlx);
 	if (load_textures(mlx) || !mlx->data->map)
 	{
