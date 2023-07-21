@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 00:31:57 by hmeftah           #+#    #+#             */
-/*   Updated: 2022/10/13 15:31:16 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:01:44 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		*string++ = *s2++;
 	*string = '\0';
 	return (string - maxlen);
-}	
+}

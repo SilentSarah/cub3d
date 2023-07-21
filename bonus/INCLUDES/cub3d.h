@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:33:12 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/20 16:33:08 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/21 15:46:37 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 # define READ_ERR "Cannot Read from file.\n"
 # define INV_ERR "Cannot load map, Invalid Configuration.\n"
 
-#define WIN_X 640
-#define WIN_Y 440
+# define WIN_X 640
+# define WIN_Y 440
 
-typedef int t_rgb;
+typedef int					t_rgb;
 
 struct s_cnf_data {
 	char	*textures[5];
@@ -132,11 +132,11 @@ typedef struct s_bresenham{
 
 typedef struct s_bresenham_help{
 	int	dx;
-    int	dy;
-    int	sx;
+	int	dy;
+	int	sx;
 	int	sy;
-    int	err;
-    int	e2;
+	int	err;
+	int	e2;
 
 }t_bresnham_h;
 
@@ -144,10 +144,8 @@ bool	extract_map_data(t_map *mlx, t_cnf *data);
 bool	test_map_walls(t_cnf *data, t_pinfo *pinfo);
 bool	parse_map(t_map *mlx, char **map);
 void	initialize_mlx(t_map **mlx);
-void	hook_functions(t_map *mlx);
-void	key_handler(void *arg);
 float	*convert_arr(int *pos);
-int 	raycasting(t_map *doom);
+int		raycasting(t_map *doom);
 char	*concatinate(char *s1, char *s2);
 char	*substring(char *str, unsigned int s, unsigned int size);
 int		calculate_char(char *string, char c);
@@ -164,7 +162,38 @@ bool	calculate_cnfs(char **cnf);
 void	print_map_cnf(t_cnf *data);
 bool	find_double_newlines(char *start_map);
 float	*convert_arr(int *pos);
-void	add_padding(char **map, t_map *mlx);
+char	**add_padding(char **map, t_map *mlx);
 int		load_textures(t_map *mlx);
-
+int		raycasting(t_map *doom);
+void	mous_hook(double xdelta, double ydelta, void *param);
+void	ft_hook(mlx_key_data_t keydata, void *param);
+void	project(t_ray	*r, t_map *doom, int i);
+void	calculating(t_ray *r, t_map *doom);
+void	projecting2(int i, double ra, double ry, t_map *doom);
+void	project2_help(double ra, double ry, t_map *doom, t_project *hb);
+void	projecting1(int i, double ra, double ry, t_map *doom);
+void	calc_first_ver(double ra, t_ray *hp, t_map *doom);
+void	ver_line(double *a, double *b, double *c, t_map *doom);
+void	where(t_rgba *rgb, double ra, int c, t_map *doom);
+void	where1(t_rgba *rgb, double ra, int c, t_map *doom);
+void	project1_help(double ra, double ry, t_map *doom, t_project *hb);
+void	my_clear(t_map *doom);
+int		hardecode_part2(int rvy, int rvx, double ra, t_map *doom);
+int		hardcode(int rvy, int rvx, double ra, t_map *doom);
+void	calc_first_hor(double ra, t_ray *hp, t_map *doom);
+void	hor_line(double *a, double *b, double *c, t_map *doom);
+void	draw_ray_map(t_map *doom);
+void	player(t_map *doom);
+void	drawline(t_bresnham pp, t_map *doom);
+void	drawline1(t_bresnham pp, t_map *doom);
+void	drawline_help(t_bresnham_h *ll, t_bresnham pp);
+void	rand_map(t_map *doom);
+void	rect(int x, int y, t_map *doom);
+void	rect1(int x, int y, t_map *doom);
+int		ft_pixel(int r, int g, int b, int a);
+void	key_w(t_map *doom);
+void	key_down(t_map *doom);
+void	key_right(t_map *doom);
+void	key_left(t_map *doom);
+void	load_handler(t_map *mlx, char *dir);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:27:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/20 15:45:06 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/21 15:51:10 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,29 @@ void	initialize_mlx(t_map **mlx)
 	}
 	(*mlx)->data->cnf = NULL;
 	(*mlx)->data->map = NULL;
+}
+
+void	load_handler(t_map *mlx, char *dir)
+{
+	if (load_map(dir, mlx->data))
+	{
+		ft_malloc(-1);
+		exit (1);
+	}
+	if (extract_map_data(mlx, mlx->data))
+	{
+		free_2d_array(mlx->data->cnf);
+		free_2d_array(mlx->data->map);
+		ft_malloc(-1);
+		exit (1);
+	}
+	mlx->data->map = add_padding(mlx->data->map, mlx);
+	if (load_textures(mlx) || !mlx->data->map)
+	{
+		free_2d_array(mlx->data->cnf);
+		ft_malloc(-1);
+		exit (1);
+	}
 }
 
 int	load_textures(t_map *mlx)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assist_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hassimi <hassimi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:46:45 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/21 14:29:30 by hassimi          ###   ########.fr       */
+/*   Updated: 2023/07/21 15:51:44 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ char	*add_spaces(char *map_el, int b_len)
 
 int	find_len(char **map, t_map *mlx)
 {
-	int	i;
-	size_t b_len;
+	int		i;
+	size_t	b_len;
 
 	i = -1;
 	b_len = 0;
@@ -85,14 +85,23 @@ int	find_len(char **map, t_map *mlx)
 	return (b_len);
 }
 
-void	add_padding(char **map, t_map *mlx)
+char	**add_padding(char **map, t_map *mlx)
 {
 	int		i;
+	char	**new_map;
 	size_t	max_len;
 
 	i = -1;
 	max_len = find_len(map, mlx);
+	new_map = (char **)ft_malloc(sizeof(char *) * mlx->doom_hight + 3);
+	if (!new_map)
+	{
+		free_2d_array(map);
+		return (NULL);
+	}
 	while (map[++i])
-		if (ft_strlen(map[i]) < max_len)
-			map[i] = add_spaces(map[i], max_len);
+		new_map[i] = add_spaces(map[i], max_len);
+	new_map[i] = NULL;
+	free_2d_array(map);
+	return (new_map);
 }

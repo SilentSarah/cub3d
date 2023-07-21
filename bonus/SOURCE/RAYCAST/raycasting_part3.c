@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_raycaster.c                                   :+:      :+:    :+:   */
+/*   raycasting_part3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 13:17:11 by hassimi           #+#    #+#             */
-/*   Updated: 2023/07/21 15:59:33 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/06/16 12:33:17 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/07/21 15:32:27 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
+
+void	my_clear(t_map *doom)
+{
+	int	r;
+	int	f;
+
+	r = 0;
+	f = 0;
+	while (f < 640)
+	{
+		r = 0;
+		while (r < 220)
+		{
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->c_value[0], doom->data->c_value[1],
+					doom->data->c_value[2], 100));
+			r++;
+		}
+		while (r < 440)
+		{
+			mlx_put_pixel(doom->image1, f, r,
+				ft_pixel(doom->data->f_value[0], doom->data->f_value[1],
+					doom->data->f_value[2], 255));
+			r++;
+		}
+		f++;
+	}
+}
 
 int	hardecode_part2(int rvy, int rvx, double ra, t_map *doom)
 {
@@ -65,68 +93,47 @@ int	hardcode(int rvy, int rvx, double ra, t_map *doom)
 	return (0);
 }
 
-// -----------------------------------------------------------------------------
-void	assigning(t_map *doom)
+void	calc_first_hor(double ra, t_ray *hp, t_map *doom)
 {
-	doom->cent_x = (doom->pinfo->pos_x * 40) + 20;
-	doom->cent_y = (doom->pinfo->pos_y * 40) + 20;
-	doom->map_hight = (40 * (doom->doom_hight));
-	if (doom->map_hight < 440)
-		doom->map_hight = 440;
-	doom->map_width = (40 * (doom->doom_width));
-	if (doom->map_width < 640)
-		doom->map_width = 640;
-	doom->map_s = 0.2;
-	doom->dr = M_PI / 180;
-	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-		'N')
-		doom->pa = M_PI + M_PI_2;
-	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-		'S')
-		doom->pa = M_PI_2;
-	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-		'W')
-		doom->pa = M_PI;
-	if (doom->data->map[(int)doom->pinfo->pos_y][(int)doom->pinfo->pos_x] ==
-		'E')
-		doom->pa = 2 * M_PI;
-	doom->px = cos(doom->pa) * 40;
-	doom->py = sin(doom->pa) * 40;
-}
-
-void	drawray(t_map *doom)
-{
-	t_ray	r;
-	int		i;
-
-	i = 0;
-	r.ra = doom->pa - doom->dr * 30;
-	if (r.ra < 0)
-		r.ra += 2 * M_PI;
-	if (r.ra > 2 * M_PI)
-		r.ra -= 2 * M_PI;
-	while (i < 640)
+	if (ra >= M_PI)
 	{
-		calculating(&r, doom);
-		project(&r, doom, i);
-		i++;
-		r.ra += (doom->dr * 60) / 640;
-		if (r.ra < 0)
-			r.ra += 2 * M_PI;
-		if (r.ra > 2 * M_PI)
-			r.ra -= 2 * M_PI;
+		hp->ry = (((int)(doom->cent_y / 40)) * 40) - 0.00001;
+		hp->rx = doom->cent_x - ((doom->cent_y - hp->ry) / (tan(ra) + 0.00001));
+		hp->yo = -40;
+		hp->xo = hp->yo / (tan(ra) + 0.00001);
+	}
+	if (ra < M_PI)
+	{
+		hp->ry = (((int)(doom->cent_y / 40)) * 40) + 40;
+		hp->rx = doom->cent_x + (doom->cent_y - hp->ry) / -(tan(ra) + 0.00001);
+		hp->yo = 40;
+		hp->xo = hp->yo / (tan(ra));
 	}
 }
 
-int	raycasting(t_map *doom)
+void	hor_line(double *a, double *b, double *c, t_map *doom)
 {
-	assigning(doom);
-	doom->image1 = mlx_new_image(doom->mlx, doom->map_width + 40,
-			doom->map_hight + 40);
-	mlx_image_to_window(doom->mlx, doom->image1, 0, 0);
-	mlx_key_hook(doom->mlx, &ft_hook, doom);
-	mlx_loop_hook(doom->mlx, ft_randering, doom);
-	mlx_loop(doom->mlx);
-	mlx_terminate(doom->mlx);
-	return (EXIT_SUCCESS);
+	t_ray	hp;
+	double	ra;
+
+	ra = *c;
+	calc_first_hor(ra, &hp, doom);
+	while (1)
+	{
+		if (((int)hp.rx > (doom->map_width)) || ((int)hp.ry
+				> (doom->map_hight)) || ((int)hp.rx < 0)
+			|| ((int)hp.ry < 0))
+			break ;
+		if (doom->data->map[(int)(hp.ry / 40)][(int)((hp.rx) / 40)] == '1')
+			break ;
+		if (hardcode(hp.ry, hp.rx, ra, doom) == 1)
+			break ;
+		else
+		{
+			hp.rx += hp.xo;
+			hp.ry += hp.yo;
+		}
+	}
+	*a = hp.ry;
+	*b = hp.rx;
 }

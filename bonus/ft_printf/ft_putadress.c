@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 20:20:53 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 17:06:54 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:00:59 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	print_long(unsigned long i, int counter, int fd)
 }
 
 int	ft_putadress(void *ptr, int fd)
-{	
+{
 	long	i;
 	int		counter;
 

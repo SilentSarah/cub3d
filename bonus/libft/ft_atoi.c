@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 14:27:55 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/06/11 14:43:43 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:01:27 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	spaces(const char *str)
 	while (str[i] != '\0' && ((str[i] == '\t' || str[i] == '\n'
 				|| str[i] == '\v' || str[i] == '\f'
 				|| str[i] == '\r' || str[i] == ' ')))
-			i++;
+		i++;
 	return (i);
 }
 

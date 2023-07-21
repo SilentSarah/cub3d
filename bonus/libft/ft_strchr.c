@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 23:23:11 by hmeftah           #+#    #+#             */
-/*   Updated: 2022/10/13 15:31:06 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:01:19 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strchr(const char *s, int c)
 
 	i = -1;
 	while (s[++i] || (!s[i] && !c))
-	{		
+	{
 		if ((unsigned char )s[i] == (unsigned char)c)
 		{
 			return ((char *)&s[i]);

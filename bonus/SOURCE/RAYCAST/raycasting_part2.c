@@ -5,38 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 18:14:50 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/07/21 15:55:15 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/07/21 15:20:08 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/07/21 15:28:05 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
 
-void	hor_line(double *a, double *b, double *c, t_map *doom)
+void	calc_first_ver(double ra, t_ray *hp, t_map *doom)
 {
-	t_ray	hp;
-	double	ra;
-
-	ra = *c;
-	calc_first_hor(ra, &hp, doom);
-	while (1)
+	if ((ra >= M_PI / 2) || ra < (3 * M_PI / 2))
 	{
-		if (((int)hp.rx > (doom->map_width)) || ((int)hp.ry
-				> (doom->map_hight)) || ((int)hp.rx < 0)
-			|| ((int)hp.ry < 0))
-			break ;
-		if (doom->data->map[(int)(hp.ry / 40)][(int)((hp.rx) / 40)] == '1')
-			break ;
-		if (hardcode(hp.ry, hp.rx, ra, doom) == 1)
-			break ;
-		else
-		{
-			hp.rx += hp.xo;
-			hp.ry += hp.yo;
-		}
+		hp->rvx = (((int)(doom->cent_x / 40)) * 40) - 0.000001;
+		hp->rvy = doom->cent_y - (doom->cent_x - hp->rvx) * tan(ra);
+		hp->xo = -40;
+		hp->yo = hp->xo * tan(ra);
 	}
-	*a = hp.ry;
-	*b = hp.rx;
+	if ((ra < M_PI / 2) || ra >= (3 * M_PI / 2))
+	{
+		hp->rvx = (((int)(doom->cent_x / 40)) * 40) + 40.0001;
+		hp->rvy = doom->cent_y + (doom->cent_x - hp->rvx) * -tan(ra);
+		hp->xo = 40;
+		hp->yo = hp->xo * tan(ra);
+	}
 }
 
 void	ver_line(double *a, double *b, double *c, t_map *doom)
@@ -98,11 +89,25 @@ void	where1(t_rgba *rgb, double ra, int c, t_map *doom)
 	}
 }
 
-void	ft_randering(void *parm)
+void	project1_help(double ra, double ry, t_map *doom, t_project *hb)
 {
-	t_map	*doom;
-
-	doom = (t_map *)parm;
-	my_clear(doom);
-	drawray(doom);
+	hb->ca = doom->pa - ra;
+	if (hb->ca < 0)
+		hb->ca += 2 * M_PI;
+	if (hb->ca > 2 * M_PI)
+		hb->ca -= 2 * M_PI;
+	doom->dst = doom->dst * cos(hb->ca);
+	hb->lineh = (40 * 440) / doom->dst;
+	hb->ty_step = 64 / (double)hb->lineh;
+	hb->ty_off = 0;
+	if (hb->lineh > 440)
+	{
+		hb->ty_off = (hb->lineh - 440) / 2.0;
+		hb->lineh = 440;
+	}
+	hb->lineo = ((220) - (hb->lineh / 2));
+	hb->ty = hb->ty_off * hb->ty_step;
+	hb->tx = (int)(ry / 0.625) % 64;
+	if (ra > 90 && ra < 270)
+		hb->tx = 63 - hb->tx;
 }
